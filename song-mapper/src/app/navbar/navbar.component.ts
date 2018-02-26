@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Constants } from '../app.constants';
 
+import { AuthService } from '../auth.service';
+
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
@@ -9,9 +11,14 @@ import { Constants } from '../app.constants';
 export class NavbarComponent implements OnInit {
   title = Constants.APP_TITLE;
 
-  constructor() {}
+  constructor(
+    private authService: AuthService
+  ) {}
 
   ngOnInit() {
   }
 
+  login(): void {
+    this.authService.startSpotifyAuth();
+  }
 }
