@@ -2,21 +2,23 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams, HttpRequest, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { Constants } from "./app.constants";
-import { SpotifyAuthToken } from "./spotify.models";
+import { User } from "./models";
+import { StorageService } from './storage.service';
 
 @Injectable()
 export class AuthService {
 
-  authToken: SpotifyAuthToken;
-
   constructor(
     private http: HttpClient,
+    private storage: StorageService
   ) { }
 
-  requestTokens(authCode: string): void {
-    this.http.post(Constants.API_URL + '/login', 
+  doLogin(authCode: string): void {
+    this.http.post<User>(Constants.API_URL + '/login', 
       {code: authCode}
-    ).subscribe(response => console.log(response));
+    ).subscribe(user => {
+      this.storage.set('currentUser', JSON.stringify(user));
+    });
   }
 
   startSpotifyAuth(): void {
@@ -28,5 +30,18 @@ export class AuthService {
 
     let spotifyAuthURL = new HttpRequest("GET", Constants.SPOTIFY_AUTH_URL, {params: params});
     window.location.href = spotifyAuthURL.urlWithParams;
+  }
+
+  getCurrentUser(): User {
+    return JSON.parse(this.storage.get('currentUser'));
+  }
+
+  isAuthenticated(): boolean {
+    var user = this.storage.get('currentUser');
+    return user ? true : false;
+  }
+
+  logout(): void {
+    this.storage.remove('currentUser');
   }
 }

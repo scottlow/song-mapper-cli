@@ -24,7 +24,7 @@ export class LoginComponent implements OnInit {
       this.router.navigate(['error/login']);
     } else {
       this.router.navigate(['home']);
-      this.authService.requestTokens(this.authCode);
+      this.authService.doLogin(this.authCode);
     }
   }
 

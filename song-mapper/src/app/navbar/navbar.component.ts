@@ -8,17 +8,19 @@ import { AuthService } from '../auth.service';
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.css']
 })
-export class NavbarComponent implements OnInit {
+export class NavbarComponent {
   title = Constants.APP_TITLE;
 
   constructor(
     private authService: AuthService
   ) {}
 
-  ngOnInit() {
-  }
-
   login(): void {
     this.authService.startSpotifyAuth();
   }
+
+  logout(): void {
+    this.authService.logout();
+  }
+  
 }
