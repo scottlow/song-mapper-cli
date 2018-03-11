@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatSidenavModule } from '@angular/material';
+import { SidebarService } from '../sidebar.service';
 
 @Component({
   selector: 'app-home',
@@ -6,10 +8,12 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
+  private _isSidebarOpen: Boolean;
 
-  constructor() { }
+  constructor(private sidebarService: SidebarService) { }
 
   ngOnInit() {
+    this.sidebarService.sidebar.subscribe(isSidebarOpen => this._isSidebarOpen = isSidebarOpen);
   }
 
 }

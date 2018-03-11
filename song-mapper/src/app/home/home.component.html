@@ -1,3 +1,8 @@
-<p>
-  <app-map></app-map>
-</p>
+<mat-sidenav-container>
+  <mat-sidenav mode="push" [opened]="_isSidebarOpen" (closedStart)="sidebarService.closeSidebar()">
+    <app-new-memory></app-new-memory>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <app-map></app-map>
+  </mat-sidenav-content>
+</mat-sidenav-container>

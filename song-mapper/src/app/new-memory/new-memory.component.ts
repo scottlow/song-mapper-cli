@@ -11,8 +11,8 @@ import { MapLocation } from '../models';
 })
 export class NewMemoryComponent implements OnInit {
 
-  @ViewChild("search")
-  public searchElementRef: ElementRef;
+  @ViewChild("placeSearch")
+  public placeSearchElementRef: ElementRef;
 
   constructor(
     private mapsAPILoader: MapsAPILoader,
@@ -22,7 +22,7 @@ export class NewMemoryComponent implements OnInit {
 
   ngOnInit() {
     this.mapsAPILoader.load().then(() => {
-      let autocomplete = new google.maps.places.Autocomplete(this.searchElementRef.nativeElement, {
+      let autocomplete = new google.maps.places.Autocomplete(this.placeSearchElementRef.nativeElement, {
         types: ["address"]
       });
       autocomplete.addListener("place_changed", () => {

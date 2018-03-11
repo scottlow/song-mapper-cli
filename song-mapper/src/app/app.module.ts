@@ -18,6 +18,10 @@ import { AgmCoreModule } from '@agm/core';
 import { NewMemoryComponent } from './new-memory/new-memory.component';
 import { LocationService } from './location.service';
 
+import { MaterialModule } from './material.module';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
+import { SidebarService } from './sidebar.service';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -35,12 +39,15 @@ import { LocationService } from './location.service';
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyBYku9lU2axlHPxksk1T5cHdwdKjgLVXlQ',
       libraries: ['places']
-    })
+    }),
+    BrowserAnimationsModule,
+    MaterialModule
   ],
   providers: [
     AuthService,
     StorageService,
-    LocationService
+    LocationService,
+    SidebarService
   ],
   bootstrap: [AppComponent]
 })
