@@ -8,10 +8,15 @@ import { LoginComponent } from './login/login.component';
 import { HomeComponent } from './home/home.component';
 import { ErrorPageComponent } from './error-page/error-page.component';
 
-import { AppRoutingModule }     from './app-routing.module';
+import { AppRoutingModule } from './app-routing.module';
 
 import { AuthService } from './auth.service';
 import { StorageService } from './storage.service';
+import { MapComponent } from './map/map.component';
+
+import { AgmCoreModule } from '@agm/core';
+import { NewMemoryComponent } from './new-memory/new-memory.component';
+import { LocationService } from './location.service';
 
 @NgModule({
   declarations: [
@@ -19,16 +24,23 @@ import { StorageService } from './storage.service';
     NavbarComponent,
     LoginComponent,
     HomeComponent,
-    ErrorPageComponent
+    ErrorPageComponent,
+    MapComponent,
+    NewMemoryComponent
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
-    AppRoutingModule
+    AppRoutingModule,
+    AgmCoreModule.forRoot({
+      apiKey: 'AIzaSyBYku9lU2axlHPxksk1T5cHdwdKjgLVXlQ',
+      libraries: ['places']
+    })
   ],
   providers: [
     AuthService,
-    StorageService
+    StorageService,
+    LocationService
   ],
   bootstrap: [AppComponent]
 })

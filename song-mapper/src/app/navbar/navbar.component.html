@@ -2,6 +2,7 @@
     <a class="navbar-brand" href="#">{{title}}</a>
     <button [hidden]="authService.isAuthenticated()" class="btn btn-outline-primary float-right" (click)="login()" type="submit">Log In</button>
     <ul [hidden]="!authService.isAuthenticated()" class="navbar-nav">
+      <app-new-memory></app-new-memory>
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           Welcome, {{authService.getCurrentUser()?.displayName}}
