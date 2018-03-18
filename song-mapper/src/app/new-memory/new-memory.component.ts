@@ -4,8 +4,11 @@ import { } from 'googlemaps';
 import { LocationService } from '../location.service';
 import { MapLocation } from '../models';
 import { SpotifyService } from '../spotify.service';
-import { FormControl } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import 'rxjs/add/operator/debounceTime';
+import {map} from 'rxjs/operators/map';
+import { MatAutocompleteSelectedEvent, MatVerticalStepper } from '@angular/material';
+import { SidebarService } from '../sidebar.service';
 
 @Component({
   selector: 'app-new-memory',
@@ -14,21 +17,34 @@ import 'rxjs/add/operator/debounceTime';
 })
 export class NewMemoryComponent implements OnInit {
 
-  @ViewChild("placeSearch")
-  public placeSearchElementRef: ElementRef;
+  @ViewChild("placeSearch") private placeSearchElementRef: ElementRef;
+  @ViewChild("stepper") private stepper: MatVerticalStepper
   private _results;
-  search = new FormControl();
+
+  private placeForm = this.fb.group({
+    placeSearch: ['', Validators.required ]
+  })
+
+  private spotifyForm = this.fb.group({
+    spotifySearch: ['', Validators.required ]
+  })
 
   constructor(
     private mapsAPILoader: MapsAPILoader,
     private ngZone: NgZone,
     private locationService: LocationService,
     private spotifyService: SpotifyService,
+    private fb: FormBuilder,
+    private sidebarService: SidebarService
   ) { }
 
   ngOnInit() {
     // Subscribe to value changes
-    this.search.valueChanges.debounceTime(500).subscribe(searchQuery => {
+    this.spotifyForm.get('spotifySearch').valueChanges.debounceTime(500)
+    .pipe(
+      map(value => typeof value === 'string' || value === null ? value : value.name)
+    )
+    .subscribe(searchQuery => {
       this._results = this.spotifyService.getSpotifySearchResults(searchQuery).map(response => response.tracks.items);
     });
 
@@ -58,4 +74,9 @@ export class NewMemoryComponent implements OnInit {
     return track ? track.name + ' - ' + track.artists[0].name : undefined;
   }
 
+  createMemory() : void {
+    console.log(this.spotifyForm.get('spotifySearch').value);
+    this.sidebarService.closeSidebar();
+    this.stepper.reset();
+  }
 }

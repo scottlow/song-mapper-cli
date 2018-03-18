@@ -23,6 +23,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import { SidebarService } from './sidebar.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SpotifyService } from './spotify.service';
+import { MemoryService } from './memory.service';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { TokenInterceptor } from './auth.interceptor';
 
 @NgModule({
   declarations: [
@@ -53,6 +56,12 @@ import { SpotifyService } from './spotify.service';
     LocationService,
     SidebarService,
     SpotifyService,
+    MemoryService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: TokenInterceptor,
+      multi: true
+    }
   ],
   bootstrap: [AppComponent]
 })

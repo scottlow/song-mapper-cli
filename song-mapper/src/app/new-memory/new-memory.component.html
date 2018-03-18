@@ -1,22 +1,28 @@
-<mat-vertical-stepper linear>
-  <mat-step label="Pick a Place">
-    <mat-form-field>
-      <input matInput type="text" spellcheck="off" autocapitalize="off" id="placeSearch" placeholder="Search for a place" #placeSearch>
-    </mat-form-field>
-    <button mat-button matStepperNext type="button">Next</button>
+<mat-vertical-stepper linear #stepper>
+  <mat-step label="Pick a Place" [stepControl]="placeForm">
+    <form [formGroup]="placeForm">
+      <mat-form-field>
+        <input matInput type="text" spellcheck="off" autocapitalize="off" id="placeSearch" placeholder="Search for a place" #placeSearch
+          required formControlName="placeSearch">
+      </mat-form-field>
+      <button mat-button matStepperNext type="button">Next</button>
+    </form>
   </mat-step>
-  <mat-step label="Pick a Song">
-    <mat-form-field>
-      <input matInput type="text" spellcheck="off" autocapitalize="off" id="songSearch" placeholder="Search for a song" [matAutocomplete]="spotify" [formControl]="search"> 
-    </mat-form-field>
-    <mat-autocomplete #spotify="matAutocomplete" [displayWith]="getTrackString">
+  <mat-step label="Pick a Song" [stepControl]="spotifyForm">
+    <form [formGroup]="spotifyForm">
+      <mat-form-field>
+        <input matInput type="text" spellcheck="off" autocapitalize="off" id="songSearch" placeholder="Search for a song" [matAutocomplete]="spotify"
+          required formControlName="spotifySearch">
+      </mat-form-field>
+      <mat-autocomplete #spotify="matAutocomplete" [displayWith]="getTrackString">
         <mat-option *ngFor="let result of _results | async" [value]="result">
-          {{ getTrackString(result) }}
+          <img class="album-image" src="{{ result.album.images[2].url }}" /> {{ getTrackString(result) }}
         </mat-option>
       </mat-autocomplete>
-    <div>
-      <button mat-button matStepperPrevious type="button">Previous</button>
-      <button mat-button matStepperNext type="button">Next</button>
-    </div>
+      <div>
+        <button mat-button matStepperPrevious type="button">Previous</button>
+        <button mat-button (click)="createMemory()" type="button">Create Memory</button>
+      </div>
+    </form>
   </mat-step>
 </mat-vertical-stepper>

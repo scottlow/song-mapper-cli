@@ -1,3 +1,10 @@
-#new-memory-form {
-    width: 500px;
+mat-form-field {
+    width: 100%;
+}
+
+.album-image {
+    height: 42px;
+    width:42px;
+    padding-right: 5px;
+    vertical-align: middle;
 }
