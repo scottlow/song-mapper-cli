@@ -7,7 +7,6 @@ import { StorageService } from './storage.service';
 
 @Injectable()
 export class AuthService {
-
   constructor(
     private http: HttpClient,
     private storage: StorageService
@@ -17,7 +16,7 @@ export class AuthService {
     this.http.post<User>(Constants.API_URL + '/login', 
       {code: authCode}
     ).subscribe(user => {
-      this.storage.set('currentUser', JSON.stringify(user));
+      this.saveCurrentUser(user);
     });
   }
 
@@ -30,6 +29,15 @@ export class AuthService {
 
     let spotifyAuthURL = new HttpRequest("GET", Constants.SPOTIFY_AUTH_URL, {params: params});
     window.location.href = spotifyAuthURL.urlWithParams;
+  }
+
+  private saveCurrentUser(user: User): void {
+    this.storage.set('currentUser', JSON.stringify(user));
+  }
+
+  getUserToken(): string {
+    let user = this.getCurrentUser();
+    return user.token;
   }
 
   getCurrentUser(): User {

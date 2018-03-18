@@ -7,8 +7,13 @@
   </mat-step>
   <mat-step label="Pick a Song">
     <mat-form-field>
-      <input matInput type="text" spellcheck="off" autocapitalize="off" id="songSearch" placeholder="Search for a song" #songSearch>
+      <input matInput type="text" spellcheck="off" autocapitalize="off" id="songSearch" placeholder="Search for a song" [matAutocomplete]="spotify" [formControl]="search"> 
     </mat-form-field>
+    <mat-autocomplete #spotify="matAutocomplete" [displayWith]="getTrackString">
+        <mat-option *ngFor="let result of _results | async" [value]="result">
+          {{ getTrackString(result) }}
+        </mat-option>
+      </mat-autocomplete>
     <div>
       <button mat-button matStepperPrevious type="button">Previous</button>
       <button mat-button matStepperNext type="button">Next</button>

@@ -21,6 +21,8 @@ import { LocationService } from './location.service';
 import { MaterialModule } from './material.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import { SidebarService } from './sidebar.service';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { SpotifyService } from './spotify.service';
 
 @NgModule({
   declarations: [
@@ -41,13 +43,16 @@ import { SidebarService } from './sidebar.service';
       libraries: ['places']
     }),
     BrowserAnimationsModule,
-    MaterialModule
+    MaterialModule,
+    FormsModule,
+    ReactiveFormsModule
   ],
   providers: [
     AuthService,
     StorageService,
     LocationService,
-    SidebarService
+    SidebarService,
+    SpotifyService,
   ],
   bootstrap: [AppComponent]
 })
