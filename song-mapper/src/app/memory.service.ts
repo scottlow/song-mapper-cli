@@ -11,6 +11,10 @@ export class MemoryService {
     private http: HttpClient
   ) { }
 
+  getMemories(): Observable<any> {
+    return this.http.get(Constants.API_URL + '/memories');
+  }
+
   createMemory(location: MemoryLocation, song: Song): Observable<any> {
     return this.http
       .post(Constants.API_URL + '/memories/create', {
