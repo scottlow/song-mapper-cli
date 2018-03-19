@@ -26,6 +26,7 @@ import { SpotifyService } from './spotify.service';
 import { MemoryService } from './memory.service';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { TokenInterceptor } from './auth.interceptor';
+import { ViewMemoriesComponent } from './view-memories/view-memories.component';
 
 @NgModule({
   declarations: [
@@ -35,7 +36,8 @@ import { TokenInterceptor } from './auth.interceptor';
     HomeComponent,
     ErrorPageComponent,
     MapComponent,
-    NewMemoryComponent
+    NewMemoryComponent,
+    ViewMemoriesComponent
   ],
   imports: [
     BrowserModule,

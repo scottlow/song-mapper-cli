@@ -1,6 +1,7 @@
 <mat-sidenav-container>
   <mat-sidenav mode="push" [opened]="_isSidebarOpen" (closedStart)="sidebarService.closeSidebar()">
-    <app-new-memory></app-new-memory>
+    <app-new-memory *ngIf="sidebarService.getCurrentState() == newMemoryState"></app-new-memory>
+    <app-view-memories *ngIf="sidebarService.getCurrentState() == viewMemoriesState"></app-view-memories>
   </mat-sidenav>
   <mat-sidenav-content>
     <app-map></app-map>

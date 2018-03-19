@@ -1,12 +1,15 @@
 import { Injectable } from '@angular/core';
-import {MapLocation} from './models';
+import {MapLocation, MemoryLocation} from './models';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
 import { StorageService } from './storage.service';
 
 @Injectable()
 export class LocationService {
   private _mapLocation = new ReplaySubject<MapLocation>();
+  private _currentlySelectedLocation = new ReplaySubject<MemoryLocation>();
+
   mapLocation = this._mapLocation.asObservable();
+  selectedLocation = this._currentlySelectedLocation.asObservable();
 
   constructor(private storage: StorageService) { }
 
@@ -17,6 +20,10 @@ export class LocationService {
   dropPin(location: MapLocation) {
     location.showPin = true;
     this.updateMapLocation(location);
+  }
+
+  updateSelectedLocation(memoryLocation: MemoryLocation) {
+    this._currentlySelectedLocation.next(memoryLocation);
   }
 
   getInitialLocation(): void {

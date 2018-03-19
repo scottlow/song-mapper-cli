@@ -26,7 +26,7 @@ export class NavbarComponent {
     this.authService.logout();
   }
 
-  openSidebar(): void {
-    this.sidebarService.openSidebar();
+  createNewMemory(): void {
+    this.sidebarService.openSidebar(Constants.SIDEBAR_NEW_MEMORY);
   }
 }

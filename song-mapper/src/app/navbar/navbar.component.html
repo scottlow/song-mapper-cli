@@ -3,7 +3,7 @@
   <span class="fill-remaining-space"></span>
   <button *ngIf="!authService.isAuthenticated()" mat-button (click)="login()" type="submit">Log In</button>
   <div *ngIf="authService.isAuthenticated()">
-    <button mat-icon-button (click)="openSidebar()">
+    <button mat-icon-button (click)="createNewMemory()">
       <mat-icon>add</mat-icon>
     </button>
     <button mat-icon-button [matMenuTriggerFor]="userMenu">

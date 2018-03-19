@@ -1,4 +1,4 @@
 <agm-map [latitude]="newMemoryLat" [longitude]="newMemoryLong" [zoom]="zoom">
   <agm-marker id="newMemoryMarker" [visible]="showNewMemoryPin" [latitude]="newMemoryLat" [longitude]="newMemoryLong"></agm-marker>
-  <agm-marker *ngFor="let memory of _memories | async" class="memoryMarker" [latitude]="memory.location.lat" [longitude]="memory.location.long"></agm-marker>
+  <agm-marker (markerClick)="updateSelectedLocation(memory.location)" *ngFor="let memory of _memories | async" class="memoryMarker" [latitude]="memory.location.lat" [longitude]="memory.location.long"></agm-marker>
 </agm-map>
