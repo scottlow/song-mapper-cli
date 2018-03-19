@@ -2,13 +2,15 @@ import { Component, OnInit, NgZone, ViewChild, ElementRef } from '@angular/core'
 import { MapsAPILoader } from '@agm/core';
 import { } from 'googlemaps';
 import { LocationService } from '../location.service';
-import { MapLocation } from '../models';
+import { MapLocation, Song, MemoryLocation } from '../models';
 import { SpotifyService } from '../spotify.service';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import 'rxjs/add/operator/debounceTime';
 import {map} from 'rxjs/operators/map';
 import { MatAutocompleteSelectedEvent, MatVerticalStepper } from '@angular/material';
 import { SidebarService } from '../sidebar.service';
+import { MemoryService } from '../memory.service';
+import { } from 'spotify-api'
 
 @Component({
   selector: 'app-new-memory',
@@ -20,6 +22,7 @@ export class NewMemoryComponent implements OnInit {
   @ViewChild("placeSearch") private placeSearchElementRef: ElementRef;
   @ViewChild("stepper") private stepper: MatVerticalStepper
   private _results;
+  private _memoryLocation : MemoryLocation;
 
   private placeForm = this.fb.group({
     placeSearch: ['', Validators.required ]
@@ -35,7 +38,8 @@ export class NewMemoryComponent implements OnInit {
     private locationService: LocationService,
     private spotifyService: SpotifyService,
     private fb: FormBuilder,
-    private sidebarService: SidebarService
+    private sidebarService: SidebarService,
+    private memoryService: MemoryService
   ) { }
 
   ngOnInit() {
@@ -63,8 +67,9 @@ export class NewMemoryComponent implements OnInit {
           if (place.geometry === undefined || place.geometry === null) {
             return;
           }
-
-          this.locationService.dropPin(new MapLocation(place.geometry.location.lat(), place.geometry.location.lng()));
+          let memoryMapLocation = new MapLocation(place.geometry.location.lat(), place.geometry.location.lng());
+          this._memoryLocation = new MemoryLocation(place.name, place.id, place.formatted_address, memoryMapLocation);
+          this.locationService.dropPin(memoryMapLocation);
         });
       });
     });
@@ -75,8 +80,17 @@ export class NewMemoryComponent implements OnInit {
   }
 
   createMemory() : void {
-    console.log(this.spotifyForm.get('spotifySearch').value);
-    this.sidebarService.closeSidebar();
-    this.stepper.reset();
+    let trackInfo: SpotifyApi.TrackObjectFull = this.spotifyForm.get('spotifySearch').value;
+    let song = new Song(
+      trackInfo.name,
+      trackInfo.id,
+      trackInfo.artists[0].name,
+      trackInfo.uri,
+      trackInfo.album.images[2].url,
+    );
+    this.memoryService.createMemory(this._memoryLocation, song).subscribe(response => {
+      this.sidebarService.closeSidebar();
+      this.stepper.reset();
+    });
   }
 }

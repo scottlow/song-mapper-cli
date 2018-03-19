@@ -10,14 +10,16 @@ import { Observable } from 'rxjs/Observable';
 
 @Injectable()
 export class TokenInterceptor implements HttpInterceptor {
-  constructor(public authService: AuthService) {}
+  constructor(public authService: AuthService) { }
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    
-    request = request.clone({
-      setHeaders: {
-        'x-access-token': this.authService.getUserToken()
-      }
-    });
+
+    if (this.authService.isAuthenticated()) {
+      request = request.clone({
+        setHeaders: {
+          'x-access-token': this.authService.getUserToken()
+        }
+      });
+    }
     return next.handle(request);
   }
 }
