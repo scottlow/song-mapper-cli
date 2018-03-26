@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { StorageService } from '../storage.service';
 import { Subscription } from 'rxjs/Subscription';
 import { LocationService } from '../location.service';
-import { Memory, MemoryLocation } from '../models';
+import { MemoryLocation } from '../models';
 import { MemoryService } from '../memory.service';
 import { SidebarService } from '../sidebar.service';
 import { Constants } from '../app.constants';

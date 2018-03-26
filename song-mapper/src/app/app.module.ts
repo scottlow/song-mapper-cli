@@ -27,6 +27,7 @@ import { MemoryService } from './memory.service';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { TokenInterceptor } from './auth.interceptor';
 import { ViewMemoriesComponent } from './view-memories/view-memories.component';
+import { SongService } from './song.service';
 
 @NgModule({
   declarations: [
@@ -59,6 +60,7 @@ import { ViewMemoriesComponent } from './view-memories/view-memories.component';
     SidebarService,
     SpotifyService,
     MemoryService,
+    SongService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: TokenInterceptor,

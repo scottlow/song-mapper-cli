@@ -1,3 +1,11 @@
-<p>
-  view-memories works! {{ _selectedLocation.gId }}
-</p>
+<mat-nav-list>
+    <h3 matSubheader>{{ this._selectedLocation.name }}</h3>
+    <a disableRipple mat-list-item *ngFor="let memory of _memoriesAtLocation">
+      <img matListAvatar src="{{ memory.song.albumArtURI }}" />
+      <h3 matLine>{{ memory.song.title }}</h3>
+      <p matLine>{{ memory.song.artist}}</p>
+      <button (click)="playSong(memory.song)" mat-icon-button *ngIf="authService.isAuthenticated()" class="playback-icon">
+        <mat-icon>play_circle_outline</mat-icon>
+      </button>
+    </a>
+ </mat-nav-list>

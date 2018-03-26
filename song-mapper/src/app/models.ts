@@ -1,8 +1,6 @@
 class Memory {
-    isAuthenticated: boolean;
-    token: string;
-    displayName: string;
-    profileImageURI: string;
+    song: Song;
+    location: MemoryLocation
 }
 
 class User {

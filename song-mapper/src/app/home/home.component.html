@@ -1,5 +1,5 @@
 <mat-sidenav-container>
-  <mat-sidenav mode="push" [opened]="_isSidebarOpen" (closedStart)="sidebarService.closeSidebar()">
+  <mat-sidenav mode="over" [opened]="_isSidebarOpen" (closedStart)="sidebarService.closeSidebar()">
     <app-new-memory *ngIf="sidebarService.getCurrentState() == newMemoryState"></app-new-memory>
     <app-view-memories *ngIf="sidebarService.getCurrentState() == viewMemoriesState"></app-view-memories>
   </mat-sidenav>

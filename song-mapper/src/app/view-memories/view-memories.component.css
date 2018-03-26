@@ -1,0 +1,13 @@
+mat-nav-list {
+    user-select: none;
+}
+
+.memory-album-art {
+    width: 40px;
+    height: 40px;
+    margin-right: 6px;
+}
+
+.playback-icon {
+    margin-left: 16px;
+}

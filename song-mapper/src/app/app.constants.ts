@@ -2,7 +2,6 @@ export class Constants {
     public static get APP_TITLE(): string { return 'Song Mapper'; };
 
     public static get API_URL(): string { return 'http://localhost:3001/api' };
-    public static get SPOTIFY_API_URL(): string { return 'https://api.spotify.com/v1' };
 
     public static get SPOTIFY_AUTH_URL(): string { return 'https://accounts.spotify.com/authorize' };
     public static get SPOTIFY_REDIRECT_URI(): string { return 'http://localhost:4200/callback/' };
