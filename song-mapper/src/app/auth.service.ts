@@ -25,7 +25,7 @@ export class AuthService {
       .set('client_id', Constants.SPOTIFY_CLIENT_ID)
       .set('response_type', 'code')
       .set('redirect_uri', Constants.SPOTIFY_REDIRECT_URI)
-      .set('scope', 'user-read-email, user-modify-playback-state');
+      .set('scope', 'user-read-email, user-modify-playback-state, user-read-playback-state');
 
     let spotifyAuthURL = new HttpRequest("GET", Constants.SPOTIFY_AUTH_URL, {params: params});
     window.location.href = spotifyAuthURL.urlWithParams;
