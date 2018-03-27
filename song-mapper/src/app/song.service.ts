@@ -4,12 +4,12 @@ import { HttpClient } from '@angular/common/http';
 import { Constants, PlaybackState } from './app.constants';
 import { StorageService } from './storage.service';
 import { } from 'spotify-api'
-import { ReplaySubject } from 'rxjs/ReplaySubject';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 @Injectable()
 export class SongService {
-  private _currentlyPlayingSong = new ReplaySubject<Song>();
-  private _playbackState = new ReplaySubject<PlaybackState>();
+  private _currentlyPlayingSong = new BehaviorSubject<Song>(undefined);
+  private _playbackState = new BehaviorSubject<PlaybackState>(PlaybackState.Stopped);
   public currentlyPlayingSong = this._currentlyPlayingSong.asObservable();
   public playbackState = this._playbackState.asObservable();
 
@@ -17,7 +17,6 @@ export class SongService {
     private http: HttpClient,
     private storage: StorageService
   ) {
-    this._playbackState.next(PlaybackState.Stopped);
     this.getCurrentSong();
   }
 
@@ -32,8 +31,9 @@ export class SongService {
   }
 
   playSong(song: Song) {
+    var currentSongValue = this._currentlyPlayingSong.getValue();
     this.http.post(Constants.API_URL + '/spotify/playback/play', {
-      uris: [song.spotifyURI]
+      uris: currentSongValue && currentSongValue.spotifyURI == song.spotifyURI ? undefined : [song.spotifyURI]
     }).subscribe(response => {
       this._playbackState.next(PlaybackState.Playing);
       this._currentlyPlayingSong.next(song);
