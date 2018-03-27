@@ -3,7 +3,6 @@ import { MapsAPILoader } from '@agm/core';
 import { } from 'googlemaps';
 import { LocationService } from '../location.service';
 import { MapLocation, Song, MemoryLocation } from '../models';
-import { SpotifyService } from '../spotify.service';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import 'rxjs/add/operator/debounceTime';
 import {map} from 'rxjs/operators/map';
@@ -11,6 +10,7 @@ import { MatAutocompleteSelectedEvent, MatVerticalStepper } from '@angular/mater
 import { SidebarService } from '../sidebar.service';
 import { MemoryService } from '../memory.service';
 import { } from 'spotify-api'
+import { SpotifyService } from '../spotify.service';
 
 @Component({
   selector: 'app-new-memory',

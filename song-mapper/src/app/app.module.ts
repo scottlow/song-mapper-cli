@@ -27,7 +27,7 @@ import { MemoryService } from './memory.service';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { TokenInterceptor } from './auth.interceptor';
 import { ViewMemoriesComponent } from './view-memories/view-memories.component';
-import { SongService } from './song.service';
+import { PlayerComponent } from './player/player.component';
 
 @NgModule({
   declarations: [
@@ -38,7 +38,8 @@ import { SongService } from './song.service';
     ErrorPageComponent,
     MapComponent,
     NewMemoryComponent,
-    ViewMemoriesComponent
+    ViewMemoriesComponent,
+    PlayerComponent
   ],
   imports: [
     BrowserModule,
@@ -60,12 +61,14 @@ import { SongService } from './song.service';
     SidebarService,
     SpotifyService,
     MemoryService,
-    SongService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: TokenInterceptor,
       multi: true
     }
+  ],
+  entryComponents: [
+    PlayerComponent
   ],
   bootstrap: [AppComponent]
 })

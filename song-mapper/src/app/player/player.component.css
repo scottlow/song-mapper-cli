@@ -1,0 +1,61 @@
+#player-overlay {
+  position: fixed;
+  z-index: 1000;
+  pointer-events: none;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+}
+
+#player-overlay-wrapper {
+  pointer-events: none;
+  z-index: 1000;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+#snack-bar-container {
+  background-color:rgb(50, 50, 50);
+  border-bottom-left-radius: 2px;
+  border-bottom-right-radius: 2px;
+  border-top-left-radius: 2px;
+  border-top-right-radius: 2px;
+  color:rgb(255, 255, 255);
+  max-width: 568px;
+  min-width: 288px;
+  padding-bottom: 14px;
+  padding-left: 24px;
+  padding-right: 24px;
+  padding-top: 14px;
+  pointer-events: auto;
+}
+
+#player {
+  user-select: none;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+#song-info-container {
+  padding-left: 10px;
+}
+
+#play-button {
+  height: 50px;
+  width: 50px;
+}
+
+.play-button-icon {
+  font-size: 50px;
+  height: 50px;
+  width: 50px;
+  line-height: 1;
+}

@@ -7,3 +7,5 @@
     <app-map></app-map>
   </mat-sidenav-content>
 </mat-sidenav-container>
+
+<app-player *ngIf="authService.isAuthenticated()"></app-player>

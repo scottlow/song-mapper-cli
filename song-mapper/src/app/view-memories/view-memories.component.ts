@@ -5,7 +5,7 @@ import { SidebarService } from '../sidebar.service';
 import { Constants, PlaybackState } from '../app.constants';
 import { HttpClient } from '@angular/common/http';
 import { AuthService } from '../auth.service';
-import { SongService } from '../song.service';
+import { SpotifyService } from '../spotify.service';
 
 @Component({
   selector: 'app-view-memories',
@@ -22,7 +22,7 @@ export class ViewMemoriesComponent implements OnInit {
     private locationService: LocationService,
     private http: HttpClient,
     private authService: AuthService,
-    private songService: SongService
+    private spotifyService: SpotifyService
   ) { 
     this._playbackState = PlaybackState.Stopped;
   }
@@ -36,11 +36,11 @@ export class ViewMemoriesComponent implements OnInit {
       });
     });
 
-    this.songService.currentlyPlayingSong.subscribe(currentlyPlayingSong => {
+    this.spotifyService.currentlyPlayingSong.subscribe(currentlyPlayingSong => {
       this._currentlyPlayingSong = currentlyPlayingSong;
     });
 
-    this.songService.playbackState.subscribe(playbackState => {
+    this.spotifyService.playbackState.subscribe(playbackState => {
       this._playbackState = playbackState;
     });
   }
@@ -50,11 +50,11 @@ export class ViewMemoriesComponent implements OnInit {
   }
 
   playSong(song: Song): void {
-    this.songService.playSong(song);
+    this.spotifyService.playSong(song);
   }
 
   pauseSong(song: Song): void {
-    this.songService.pauseSong(song);
+    this.spotifyService.pauseSong(song);
   }
 
 }
