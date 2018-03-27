@@ -28,7 +28,15 @@ export class MapComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.locationService.mapLocation.subscribe(location => {
+    this.sidebarService.sidebar.subscribe(isSidebarOpen => {
+      if(!isSidebarOpen) this.hidePin();
+    });
+
+    this.locationService.newMemoryPinLocation.subscribe(location => {
+      if (location == null) {
+        this.hidePin();
+        return;
+      }
       this.newMemoryLat = location.lat;
       this.newMemoryLong = location.long;
       this.showNewMemoryPin = location.showPin;
@@ -39,7 +47,11 @@ export class MapComponent implements OnInit {
     this.locationService.getInitialLocation();
   }
 
-  updateSelectedLocation(memoryLocation: MemoryLocation) {
+  hidePin(): void {
+    this.showNewMemoryPin = false;
+  }
+
+  updateSelectedLocation(memoryLocation: MemoryLocation): void {
     this.sidebarService.openSidebar(Constants.SIDEBAR_VIEW_MEMORIES);
     this.locationService.updateSelectedLocation(memoryLocation);
   }

@@ -43,6 +43,10 @@ export class NewMemoryComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.sidebarService.sidebar.subscribe(isSidebarOpen => {
+      if(!isSidebarOpen) this.stepper.reset();
+    });
+
     // Subscribe to value changes
     this.spotifyForm.get('spotifySearch').valueChanges.debounceTime(500)
     .pipe(
@@ -90,7 +94,6 @@ export class NewMemoryComponent implements OnInit {
     );
     this.memoryService.createMemory(this._memoryLocation, song).subscribe(response => {
       this.sidebarService.closeSidebar();
-      this.stepper.reset();
     });
   }
 }
