@@ -42,9 +42,13 @@ export class MapComponent implements OnInit {
       this.showNewMemoryPin = location.showPin;
     });
 
-    this._memories = this.memoryService.getMemories();
+    this.memoryService.memories.subscribe(memories => {
+      this._memories = memories;
+    });
 
+    // Initialize services
     this.locationService.getInitialLocation();
+    this.memoryService.getMemories();
   }
 
   hidePin(): void {

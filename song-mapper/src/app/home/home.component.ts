@@ -5,6 +5,7 @@ import { Constants, PlaybackState } from '../app.constants';
 import { SpotifyService } from '../spotify.service';
 import { PlayerComponent } from '../player/player.component';
 import { AuthService } from '../auth.service';
+import { Router, NavigationEnd } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -17,11 +18,22 @@ export class HomeComponent implements OnInit {
   constructor(
     private sidebarService: SidebarService,
     private spotifyService: SpotifyService,
-    private authService: AuthService
-  ) { }
+    private authService: AuthService,
+    private router: Router
+  ) {
+    this.router.events.subscribe(event => {
+      if (event instanceof NavigationEnd && authService.isAuthenticated()) {
+        this.spotifyService.getCurrentSong();
+      }
+    });
+  }
 
   ngOnInit() {
     this.sidebarService.sidebar.subscribe(isSidebarOpen => this._isSidebarOpen = isSidebarOpen);
+
+    if (this.authService.isAuthenticated()) {
+      this.spotifyService.getCurrentSong();
+    }
   }
 
   get newMemoryState() {

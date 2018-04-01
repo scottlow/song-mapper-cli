@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
-import {MapLocation, MemoryLocation} from './models';
+import {PinLocation, MemoryLocation} from './models';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
 import { StorageService } from './storage.service';
 
 @Injectable()
 export class LocationService {
-  private _newMemoryPinLocation = new ReplaySubject<MapLocation>();
+  private _newMemoryPinLocation = new ReplaySubject<PinLocation>();
   private _currentlySelectedLocation = new ReplaySubject<MemoryLocation>();
 
   newMemoryPinLocation = this._newMemoryPinLocation.asObservable();
@@ -13,11 +13,11 @@ export class LocationService {
 
   constructor(private storage: StorageService) { }
 
-  updateNewMemoryPinLocation(location: MapLocation) {
+  updateNewMemoryPinLocation(location: PinLocation) {
     this._newMemoryPinLocation.next(location);
   }
 
-  dropPin(location: MapLocation) {
+  dropPin(location: PinLocation) {
     location.showPin = true;
     this.updateNewMemoryPinLocation(location);
   }
@@ -34,14 +34,14 @@ export class LocationService {
       let currentLong = Number(this.storage.get('currentLong'));
 
       if (currentLat && currentLong) {
-        this.updateNewMemoryPinLocation(new MapLocation(currentLat, currentLong));
+        this.updateNewMemoryPinLocation(new PinLocation(currentLat, currentLong));
       }
 
       // Update current position
       navigator.geolocation.getCurrentPosition(position => {
         let currentPosition = position.coords;
 
-        this.updateNewMemoryPinLocation(new MapLocation(currentPosition.latitude, currentPosition.longitude));
+        this.updateNewMemoryPinLocation(new PinLocation(currentPosition.latitude, currentPosition.longitude));
 
         this.storage.set('currentLat', currentPosition.latitude.toString());
         this.storage.set('currentLong', currentPosition.longitude.toString());

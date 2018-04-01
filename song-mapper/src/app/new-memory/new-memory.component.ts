@@ -2,7 +2,7 @@ import { Component, OnInit, NgZone, ViewChild, ElementRef } from '@angular/core'
 import { MapsAPILoader } from '@agm/core';
 import { } from 'googlemaps';
 import { LocationService } from '../location.service';
-import { MapLocation, Song, MemoryLocation } from '../models';
+import { PinLocation, Song, MemoryLocation } from '../models';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import 'rxjs/add/operator/debounceTime';
 import {map} from 'rxjs/operators/map';
@@ -59,7 +59,7 @@ export class NewMemoryComponent implements OnInit {
     // Load the map
     this.mapsAPILoader.load().then(() => {
       let autocomplete = new google.maps.places.Autocomplete(this.placeSearchElementRef.nativeElement, {
-        types: ["address"]
+        types: []
       });
 
       // If the map changes due to an autocomplete change, drop a pin
@@ -71,7 +71,7 @@ export class NewMemoryComponent implements OnInit {
           if (place.geometry === undefined || place.geometry === null) {
             return;
           }
-          let memoryMapLocation = new MapLocation(place.geometry.location.lat(), place.geometry.location.lng());
+          let memoryMapLocation = new PinLocation(place.geometry.location.lat(), place.geometry.location.lng());
           this._memoryLocation = new MemoryLocation(place.name, place.id, place.formatted_address, memoryMapLocation);
           this.locationService.dropPin(memoryMapLocation);
         });

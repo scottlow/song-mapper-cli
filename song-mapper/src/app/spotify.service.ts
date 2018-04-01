@@ -19,9 +19,7 @@ export class SpotifyService {
   constructor(
     private http: HttpClient,
     private storage: StorageService
-  ) {
-    this.getCurrentSong();
-  }
+  ) { }
 
   getSpotifySearchResults(query: string): Observable<any> {
     return this.http.get(Constants.API_URL + '/spotify/search', { params: { q: query } });
@@ -30,13 +28,15 @@ export class SpotifyService {
   getCurrentSong(): void {
     this.http.get<any>(Constants.API_URL + '/spotify/playback', {
     }).subscribe(response => {
-      let device = response.device;
-      this._currentVolume.next(device.volume_percent);
+      if (response) {
+        let device = response.device;
+        this._currentVolume.next(device.volume_percent);
 
-      let songObj: SpotifyApi.TrackObjectFull = response.item;
-      let song = new Song(songObj.name, songObj.id, songObj.artists[0].name, songObj.uri, songObj.album.images[2].url);
-      this._currentlyPlayingSong.next(song);
-      this._playbackState.next(songObj ? response.is_playing ? PlaybackState.Playing : PlaybackState.Paused : PlaybackState.Stopped);
+        let songObj: SpotifyApi.TrackObjectFull = response.item;
+        let song = new Song(songObj.name, songObj.id, songObj.artists[0].name, songObj.uri, songObj.album.images[2].url);
+        this._currentlyPlayingSong.next(song);
+        this._playbackState.next(songObj ? response.is_playing ? PlaybackState.Playing : PlaybackState.Paused : PlaybackState.Stopped);
+      }
     });
   }
 

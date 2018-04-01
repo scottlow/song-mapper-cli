@@ -1,6 +1,11 @@
 class Memory {
     song: Song;
     location: MemoryLocation
+
+    constructor(song: Song, location: MemoryLocation) {
+        this.song = song;
+        this.location = location;
+    }
 }
 
 class User {
@@ -10,7 +15,7 @@ class User {
     memories: [Memory];
 }
 
-class MapLocation {
+class PinLocation {
     lat: Number;
     long: Number;
     showPin: Boolean;
@@ -26,13 +31,13 @@ class MemoryLocation {
     name: String;
     gId: String;
     address: String
-    location: MapLocation
+    pinLocation: PinLocation
 
-    constructor(name: String, gId: String, address: String, location: MapLocation) {
+    constructor(name: String, gId: String, address: String, location: PinLocation) {
         this.name = name;
         this.gId = gId;
         this.address = address;
-        this.location = location;
+        this.pinLocation = location;
     }
 }
 
@@ -52,4 +57,4 @@ class Song {
     }
 }
 
-export { User, Memory, MapLocation, Song, MemoryLocation }
+export { User, Memory, PinLocation, Song, MemoryLocation }

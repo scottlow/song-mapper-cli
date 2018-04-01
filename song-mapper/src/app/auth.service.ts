@@ -12,11 +12,14 @@ export class AuthService {
     private storage: StorageService
   ) { }
 
-  doLogin(authCode: string): void {
-    this.http.post<User>(Constants.API_URL + '/login', 
-      {code: authCode}
-    ).subscribe(user => {
-      this.saveCurrentUser(user);
+  doLogin(authCode: string): Promise<any> {
+    return new Promise((resolve, reject) => {
+      this.http.post<User>(Constants.API_URL + '/login',
+        { code: authCode }
+      ).subscribe(user => {
+        this.saveCurrentUser(user);
+        resolve();
+      });
     });
   }
 
@@ -27,7 +30,7 @@ export class AuthService {
       .set('redirect_uri', Constants.SPOTIFY_REDIRECT_URI)
       .set('scope', 'user-read-email, user-modify-playback-state, user-read-playback-state');
 
-    let spotifyAuthURL = new HttpRequest("GET", Constants.SPOTIFY_AUTH_URL, {params: params});
+    let spotifyAuthURL = new HttpRequest("GET", Constants.SPOTIFY_AUTH_URL, { params: params });
     window.location.href = spotifyAuthURL.urlWithParams;
   }
 
