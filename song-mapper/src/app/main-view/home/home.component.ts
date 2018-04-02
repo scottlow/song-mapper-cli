@@ -1,13 +1,13 @@
 import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { MatSidenavModule } from '@angular/material';
-import { SidebarService } from '../sidebar.service';
-import { Constants, PlaybackState } from '../app.constants';
-import { SpotifyService } from '../spotify.service';
-import { PlayerComponent } from '../player/player.component';
-import { AuthService } from '../auth.service';
+import { SidebarService } from '../../services/sidebar.service';
+import { Constants, PlaybackState } from '../../app.constants';
+import { SpotifyService } from '../../services/spotify.service';
+import { PlayerComponent } from '../../player/player.component';
+import { AuthService } from '../../services/auth/auth.service';
 import { Router, NavigationEnd } from '@angular/router';
-import { MemoryService } from '../memory.service';
-import { Memory } from '../models';
+import { MemoryService } from '../../services/memory.service';
+import { Memory } from '../../app.models';
 import { Subject } from 'rxjs/Subject';
 
 @Component({

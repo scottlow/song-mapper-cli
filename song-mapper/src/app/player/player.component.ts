@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { SpotifyService } from '../spotify.service';
-import { Song } from '../models';
+import { SpotifyService } from '../services/spotify.service';
+import { Song } from '../app.models';
 import { PlaybackState } from '../app.constants';
 import { Subject } from 'rxjs/Subject';
 

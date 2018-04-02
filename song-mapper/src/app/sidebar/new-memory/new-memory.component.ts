@@ -1,16 +1,16 @@
 import { Component, OnInit, NgZone, ViewChild, ElementRef, OnDestroy } from '@angular/core';
 import { MapsAPILoader } from '@agm/core';
 import { } from 'googlemaps';
-import { LocationService } from '../location.service';
-import { PinLocation, Song, MemoryLocation } from '../models';
+import { LocationService } from '../../services/location.service';
+import { PinLocation, Song, MemoryLocation } from '../../app.models';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import 'rxjs/add/operator/debounceTime';
 import {map} from 'rxjs/operators/map';
 import { MatAutocompleteSelectedEvent, MatVerticalStepper } from '@angular/material';
-import { SidebarService } from '../sidebar.service';
-import { MemoryService } from '../memory.service';
+import { SidebarService } from '../../services/sidebar.service';
+import { MemoryService } from '../../services/memory.service';
 import { } from 'spotify-api'
-import { SpotifyService } from '../spotify.service';
+import { SpotifyService } from '../../services/spotify.service';
 import { Subject } from 'rxjs/Subject';
 
 @Component({

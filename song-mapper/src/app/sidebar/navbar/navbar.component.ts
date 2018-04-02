@@ -1,9 +1,9 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { Constants } from '../app.constants';
+import { Constants } from '../../app.constants';
 
-import { AuthService } from '../auth.service';
+import { AuthService } from '../../services/auth/auth.service';
 import { MatSidenav } from '@angular/material';
-import { SidebarService } from '../sidebar.service';
+import { SidebarService } from '../../services/sidebar.service';
 import { Router } from '@angular/router';
 
 @Component({

@@ -3,33 +3,33 @@ import { NgModule } from '@angular/core';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
-import { NavbarComponent } from './navbar/navbar.component';
-import { LoginComponent } from './login/login.component';
-import { HomeComponent } from './home/home.component';
-import { ErrorPageComponent } from './error-page/error-page.component';
+import { NavbarComponent } from './sidebar/navbar/navbar.component';
+import { LoginComponent } from './main-view/login/login.component';
+import { HomeComponent } from './main-view/home/home.component';
+import { ErrorPageComponent } from './main-view/error-page/error-page.component';
 
 import { AppRoutingModule } from './app-routing.module';
 
-import { AuthService } from './auth.service';
-import { StorageService } from './storage.service';
-import { MapComponent } from './map/map.component';
+import { AuthService } from './services/auth/auth.service';
+import { StorageService } from './services/storage.service';
+import { MapComponent } from './main-view/map/map.component';
 
 import { AgmCoreModule } from '@agm/core';
-import { NewMemoryComponent } from './new-memory/new-memory.component';
-import { LocationService } from './location.service';
+import { NewMemoryComponent } from './sidebar/new-memory/new-memory.component';
+import { LocationService } from './services/location.service';
 
 import { MaterialModule } from './material.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
-import { SidebarService } from './sidebar.service';
+import { SidebarService } from './services/sidebar.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { SpotifyService } from './spotify.service';
-import { MemoryService } from './memory.service';
+import { SpotifyService } from './services/spotify.service';
+import { MemoryService } from './services/memory.service';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
-import { TokenInterceptor } from './auth.interceptor';
-import { ViewMemoriesComponent } from './view-memories/view-memories.component';
+import { TokenInterceptor } from './services/auth/auth.interceptor';
+import { ViewMemoriesComponent } from './sidebar/view-memories/view-memories.component';
 import { PlayerComponent } from './player/player.component';
-import { MemoriesComponent } from './memories/memories.component';
-import { AuthGuardService } from './auth-guard.service';
+import { MemoriesComponent } from './main-view/memories/memories.component';
+import { AuthGuardService } from './services/auth/auth-guard.service';
 
 @NgModule({
   declarations: [

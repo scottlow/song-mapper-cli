@@ -1,11 +1,11 @@
 import { Component, OnInit, Input, OnDestroy } from '@angular/core';
-import { StorageService } from '../storage.service';
+import { StorageService } from '../../services/storage.service';
 import { Subscription } from 'rxjs/Subscription';
-import { LocationService } from '../location.service';
-import { MemoryLocation, Memory } from '../models';
-import { MemoryService } from '../memory.service';
-import { SidebarService } from '../sidebar.service';
-import { Constants } from '../app.constants';
+import { LocationService } from '../../services/location.service';
+import { MemoryLocation, Memory } from '../../app.models';
+import { MemoryService } from '../../services/memory.service';
+import { SidebarService } from '../../services/sidebar.service';
+import { Constants } from '../../app.constants';
 import { Subject } from 'rxjs/Subject';
 
 @Component({

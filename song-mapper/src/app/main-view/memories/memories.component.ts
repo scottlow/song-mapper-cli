@@ -1,11 +1,11 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { SidebarService } from '../sidebar.service';
-import { SpotifyService } from '../spotify.service';
-import { AuthService } from '../auth.service';
-import { Memory } from '../models';
-import { MemoryService } from '../memory.service';
-import { Constants } from '../app.constants';
-import { LocationService } from '../location.service';
+import { SidebarService } from '../../services/sidebar.service';
+import { SpotifyService } from '../../services/spotify.service';
+import { AuthService } from '../../services/auth/auth.service';
+import { Memory } from '../../app.models';
+import { MemoryService } from '../../services/memory.service';
+import { Constants } from '../../app.constants';
+import { LocationService } from '../../services/location.service';
 import { Subject } from 'rxjs/Subject';
 
 @Component({

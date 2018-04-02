@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {PinLocation, MemoryLocation} from './models';
+import {PinLocation, MemoryLocation} from '../app.models';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
 import { StorageService } from './storage.service';
 

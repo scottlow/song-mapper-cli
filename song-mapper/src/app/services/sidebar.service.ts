@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
-import { Constants } from './app.constants';
+import { Constants } from '../app.constants';
 
 @Injectable()
 export class SidebarService {

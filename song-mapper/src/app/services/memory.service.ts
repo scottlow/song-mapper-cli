@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
-import { Constants } from './app.constants';
-import { MemoryLocation, Song, Memory } from './models';
+import { Constants } from '../app.constants';
+import { MemoryLocation, Song, Memory } from '../app.models';
 import { Subject } from 'rxjs/Subject';
-import { AuthService } from './auth.service';
+import { AuthService } from './auth/auth.service';
 
 @Injectable()
 export class MemoryService {

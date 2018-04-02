@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { Song } from './models';
+import { Song } from '../app.models';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Constants, PlaybackState } from './app.constants';
+import { Constants, PlaybackState } from '../app.constants';
 import { StorageService } from './storage.service';
 import { } from 'spotify-api'
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
