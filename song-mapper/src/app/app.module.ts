@@ -28,6 +28,8 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { TokenInterceptor } from './auth.interceptor';
 import { ViewMemoriesComponent } from './view-memories/view-memories.component';
 import { PlayerComponent } from './player/player.component';
+import { MemoriesComponent } from './memories/memories.component';
+import { AuthGuardService } from './auth-guard.service';
 
 @NgModule({
   declarations: [
@@ -39,7 +41,8 @@ import { PlayerComponent } from './player/player.component';
     MapComponent,
     NewMemoryComponent,
     ViewMemoriesComponent,
-    PlayerComponent
+    PlayerComponent,
+    MemoriesComponent
   ],
   imports: [
     BrowserModule,
@@ -61,6 +64,7 @@ import { PlayerComponent } from './player/player.component';
     SidebarService,
     SpotifyService,
     MemoryService,
+    AuthGuardService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: TokenInterceptor,

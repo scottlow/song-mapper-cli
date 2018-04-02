@@ -1,4 +1,4 @@
-import { Component, OnInit, NgZone, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, NgZone, ViewChild, ElementRef, OnDestroy } from '@angular/core';
 import { MapsAPILoader } from '@agm/core';
 import { } from 'googlemaps';
 import { LocationService } from '../location.service';
@@ -11,18 +11,20 @@ import { SidebarService } from '../sidebar.service';
 import { MemoryService } from '../memory.service';
 import { } from 'spotify-api'
 import { SpotifyService } from '../spotify.service';
+import { Subject } from 'rxjs/Subject';
 
 @Component({
   selector: 'app-new-memory',
   templateUrl: './new-memory.component.html',
   styleUrls: ['./new-memory.component.css']
 })
-export class NewMemoryComponent implements OnInit {
+export class NewMemoryComponent implements OnInit, OnDestroy {
 
   @ViewChild("placeSearch") private placeSearchElementRef: ElementRef;
   @ViewChild("stepper") private stepper: MatVerticalStepper
   private _results;
   private _memoryLocation : MemoryLocation;
+  private ngUnsubscribe: Subject<any> = new Subject();
 
   private placeForm = this.fb.group({
     placeSearch: ['', Validators.required ]
@@ -92,8 +94,13 @@ export class NewMemoryComponent implements OnInit {
       trackInfo.uri,
       trackInfo.album.images[2].url,
     );
-    this.memoryService.createMemory(this._memoryLocation, song).subscribe(response => {
+    this.memoryService.createMemory(this._memoryLocation, song).takeUntil(this.ngUnsubscribe).subscribe(response => {
       this.sidebarService.closeSidebar();
     });
+  }
+
+  ngOnDestroy() {
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
   }
 }

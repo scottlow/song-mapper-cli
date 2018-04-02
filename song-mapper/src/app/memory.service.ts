@@ -4,6 +4,7 @@ import { Observable } from 'rxjs/Observable';
 import { Constants } from './app.constants';
 import { MemoryLocation, Song, Memory } from './models';
 import { Subject } from 'rxjs/Subject';
+import { AuthService } from './auth.service';
 
 @Injectable()
 export class MemoryService {
@@ -14,9 +15,17 @@ export class MemoryService {
   };
 
   constructor(
-    private http: HttpClient
+    private http: HttpClient,
+    private authService: AuthService
   ) {
     this.dataStore = { memories: [] };
+  }
+
+  getCurrentUsersMemories(): void {
+    this.http.get<Memory[]>(Constants.API_URL + '/me/memories').subscribe(memories => {
+      this.dataStore.memories = memories;
+      this._memories.next(Object.assign({}, this.dataStore).memories);
+    });
   }
 
   getMemories(): void {

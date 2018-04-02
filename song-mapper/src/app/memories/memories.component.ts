@@ -1,21 +1,19 @@
-import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
-import { MatSidenavModule } from '@angular/material';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { SidebarService } from '../sidebar.service';
-import { Constants, PlaybackState } from '../app.constants';
 import { SpotifyService } from '../spotify.service';
-import { PlayerComponent } from '../player/player.component';
 import { AuthService } from '../auth.service';
-import { Router, NavigationEnd } from '@angular/router';
-import { MemoryService } from '../memory.service';
 import { Memory } from '../models';
+import { MemoryService } from '../memory.service';
+import { Constants } from '../app.constants';
+import { LocationService } from '../location.service';
 import { Subject } from 'rxjs/Subject';
 
 @Component({
-  selector: 'app-home',
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.css']
+  selector: 'app-memories',
+  templateUrl: './memories.component.html',
+  styleUrls: ['./memories.component.css']
 })
-export class HomeComponent implements OnInit, OnDestroy {
+export class MemoriesComponent implements OnInit, OnDestroy {
   private _isSidebarOpen: Boolean;
   private _memories: Memory[];
   private ngUnsubscribe: Subject<any> = new Subject();
@@ -24,15 +22,9 @@ export class HomeComponent implements OnInit, OnDestroy {
     private sidebarService: SidebarService,
     private spotifyService: SpotifyService,
     private authService: AuthService,
-    private router: Router,
-    private memoryService: MemoryService
-  ) {
-    this.router.events.takeUntil(this.ngUnsubscribe).subscribe(event => {
-      if (event instanceof NavigationEnd && authService.isAuthenticated()) {
-        this.spotifyService.getCurrentSong();
-      }
-    });
-  }
+    private memoryService: MemoryService,
+    private locationService: LocationService
+  ) { }
 
   ngOnInit() {
     this.sidebarService.sidebar.takeUntil(this.ngUnsubscribe).subscribe(isSidebarOpen => this._isSidebarOpen = isSidebarOpen);
@@ -41,7 +33,13 @@ export class HomeComponent implements OnInit, OnDestroy {
       this._memories = memories;
     });
 
-    this.memoryService.getMemories();
+    if (this.authService.isAuthenticated()) {
+      this.spotifyService.getCurrentSong();
+    }
+
+    this.memoryService.getCurrentUsersMemories();
+    this.locationService.clearCurrentlySelectedLocation();
+
   }
 
   get newMemoryState() {

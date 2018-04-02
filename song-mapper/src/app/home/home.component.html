@@ -4,7 +4,7 @@
     <app-view-memories *ngIf="sidebarService.getCurrentState() == viewMemoriesState"></app-view-memories>
   </mat-sidenav>
   <mat-sidenav-content>
-    <app-map></app-map>
+    <app-map [memories]="_memories"></app-map>
   </mat-sidenav-content>
 </mat-sidenav-container>
 

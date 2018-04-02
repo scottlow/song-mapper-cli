@@ -26,18 +26,20 @@ export class SpotifyService {
   }
 
   getCurrentSong(): void {
-    this.http.get<any>(Constants.API_URL + '/spotify/playback', {
-    }).subscribe(response => {
-      if (response) {
-        let device = response.device;
-        this._currentVolume.next(device.volume_percent);
+    if (this._currentlyPlayingSong.getValue() == undefined) {
+      this.http.get<any>(Constants.API_URL + '/spotify/playback', {
+      }).subscribe(response => {
+        if (response) {
+          let device = response.device;
+          this._currentVolume.next(device.volume_percent);
 
-        let songObj: SpotifyApi.TrackObjectFull = response.item;
-        let song = new Song(songObj.name, songObj.id, songObj.artists[0].name, songObj.uri, songObj.album.images[2].url);
-        this._currentlyPlayingSong.next(song);
-        this._playbackState.next(songObj ? response.is_playing ? PlaybackState.Playing : PlaybackState.Paused : PlaybackState.Stopped);
-      }
-    });
+          let songObj: SpotifyApi.TrackObjectFull = response.item;
+          let song = new Song(songObj.name, songObj.id, songObj.artists[0].name, songObj.uri, songObj.album.images[2].url);
+          this._currentlyPlayingSong.next(song);
+          this._playbackState.next(songObj ? response.is_playing ? PlaybackState.Playing : PlaybackState.Paused : PlaybackState.Stopped);
+        }
+      });
+    }
   }
 
   resumePlayback() {

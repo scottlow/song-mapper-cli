@@ -26,6 +26,10 @@ export class LocationService {
     this._currentlySelectedLocation.next(memoryLocation);
   }
 
+  clearCurrentlySelectedLocation(): void {
+    this._currentlySelectedLocation.next(null);
+  }
+
   getInitialLocation(): void {
     if (navigator.geolocation) {
 

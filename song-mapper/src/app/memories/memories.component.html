@@ -1,0 +1,10 @@
+<mat-sidenav-container>
+  <mat-sidenav mode="side" opened="true">
+    <app-view-memories [listClickable]="true"></app-view-memories>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <app-map [markerClickable]="false" [memories]="_memories"></app-map>
+  </mat-sidenav-content>
+</mat-sidenav-container>
+
+<app-player *ngIf="authService.isAuthenticated()"></app-player>

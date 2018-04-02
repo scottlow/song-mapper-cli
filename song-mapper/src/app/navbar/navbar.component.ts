@@ -4,6 +4,7 @@ import { Constants } from '../app.constants';
 import { AuthService } from '../auth.service';
 import { MatSidenav } from '@angular/material';
 import { SidebarService } from '../sidebar.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-navbar',
@@ -15,7 +16,8 @@ export class NavbarComponent {
 
   constructor(
     private authService: AuthService,
-    private sidebarService: SidebarService
+    private sidebarService: SidebarService,
+    private router: Router
   ) {}
 
   login(): void {
@@ -24,6 +26,15 @@ export class NavbarComponent {
 
   logout(): void {
     this.authService.logout();
+    this.showHome();
+  }
+
+  showMemories(): void {
+    this.router.navigate(['memories']);
+  }
+
+  showHome(): void {
+    this.router.navigate(['home']);
   }
 
   createNewMemory(): void {
