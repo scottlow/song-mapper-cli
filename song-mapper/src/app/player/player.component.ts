@@ -41,6 +41,10 @@ export class PlayerComponent implements OnInit, OnDestroy {
     return this._playbackState == PlaybackState.Playing;
   }
 
+  setVolume(): void {
+    this.spotifyService.setVolume(this._currentVolume);
+  }
+
   ngOnDestroy() {
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();

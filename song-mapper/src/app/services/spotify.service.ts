@@ -63,6 +63,9 @@ export class SpotifyService {
     this.http.post(Constants.API_URL + '/spotify/playback/pause', undefined).subscribe(response => {
       this._playbackState.next(PlaybackState.Paused);
     });
+  }
 
+  setVolume(newVolume: Number) {
+    this.http.post(Constants.API_URL + '/spotify/playback/volume', {volume_percent: newVolume}).subscribe();
   }
 }

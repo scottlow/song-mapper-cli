@@ -17,7 +17,7 @@
         <button mat-icon-button>
           <mat-icon>skip_next</mat-icon>
         </button>
-        <mat-slider min="0" max="100" step="1" value="{{ _currentVolume }}"></mat-slider>
+        <mat-slider [(ngModel)]="_currentVolume" min="0" max="100" step="1" (change)="setVolume()"></mat-slider>
       </section>
     </div>
   </div>
