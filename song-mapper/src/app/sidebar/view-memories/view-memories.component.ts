@@ -71,6 +71,10 @@ export class ViewMemoriesComponent implements OnInit, OnDestroy {
     this.spotifyService.pauseSong(song);
   }
 
+  deleteMemory(memory: Memory): void {
+    this.memoryService.deleteMemory(memory._id);
+  }
+
   showSongLocation(location: PinLocation): void {
     location.showPin = false;
     this.locationService.updateNewMemoryPinLocation(location);

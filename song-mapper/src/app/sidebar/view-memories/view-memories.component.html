@@ -8,5 +8,8 @@
         <mat-icon (click)="playSong(memory.song)" *ngIf="!shouldShowPauseButton(memory.song)">play_circle_outline</mat-icon>
         <mat-icon (click)="pauseSong(memory.song)" *ngIf="shouldShowPauseButton(memory.song)">pause_circle_outline</mat-icon>
       </button>
+      <button *ngIf="memory.song.isSavedByCurrentUser" mat-icon-button>
+        <mat-icon (click)="deleteMemory(memory)">delete_outline</mat-icon>
+      </button>
     </a>
  </mat-nav-list>

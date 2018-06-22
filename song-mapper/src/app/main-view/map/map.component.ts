@@ -53,8 +53,8 @@ export class MapComponent implements OnInit, OnDestroy {
   }
 
   updateSelectedLocation(memoryLocation: MemoryLocation): void {
-    this.sidebarService.openSidebar(Constants.SIDEBAR_VIEW_MEMORIES);
     this.locationService.updateSelectedLocation(memoryLocation);
+    this.sidebarService.openSidebar(Constants.SIDEBAR_VIEW_MEMORIES);
   }
 
   ngOnDestroy() {

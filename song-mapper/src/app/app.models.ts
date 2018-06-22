@@ -1,4 +1,5 @@
 class Memory {
+    _id: String;
     song: Song;
     location: MemoryLocation
 

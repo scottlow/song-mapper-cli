@@ -35,6 +35,15 @@ export class MemoryService {
     });
   }
 
+  deleteMemory(memoryId: any) {
+    this.dataStore.memories.forEach((memory, index) => {
+      if (memory._id === memoryId) {
+        this.dataStore.memories.splice(index, 1);
+        this.http.delete(Constants.API_URL + '/me/memories/delete', { params: { memoryId: memoryId } }).subscribe();
+      }
+    });
+  }
+
   createMemory(location: MemoryLocation, song: Song): Observable<any> {
     let newMemory = new Memory(song, location);
     this.dataStore.memories = this.dataStore.memories.concat(newMemory);

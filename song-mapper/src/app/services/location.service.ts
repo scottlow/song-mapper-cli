@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import {PinLocation, MemoryLocation} from '../app.models';
-import { ReplaySubject } from 'rxjs/ReplaySubject';
 import { StorageService } from './storage.service';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { Subject } from 'rxjs/Subject';
 
 @Injectable()
 export class LocationService {
-  private _newMemoryPinLocation = new ReplaySubject<PinLocation>();
-  private _currentlySelectedLocation = new ReplaySubject<MemoryLocation>();
+  private _newMemoryPinLocation = new Subject<PinLocation>();
+  private _currentlySelectedLocation = new BehaviorSubject<MemoryLocation>(undefined);
 
   newMemoryPinLocation = this._newMemoryPinLocation.asObservable();
   selectedLocation = this._currentlySelectedLocation.asObservable();

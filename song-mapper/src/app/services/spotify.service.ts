@@ -3,7 +3,6 @@ import { Song } from '../app.models';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Constants, PlaybackState } from '../app.constants';
 import { StorageService } from './storage.service';
-import { } from 'spotify-api'
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Observable';
 
