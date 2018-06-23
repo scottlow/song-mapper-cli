@@ -44,7 +44,7 @@ export class ViewMemoriesComponent implements OnInit, OnDestroy {
         });
       } else {
         // If we get here, we're displaying memories for a specific user
-        this.memoryService.memories.first().subscribe(memories => {
+        this.memoryService.memories.takeUntil(this.ngUnsubscribe).subscribe(memories => {
           this._memoriesToDisplay = memories;
         });
       }

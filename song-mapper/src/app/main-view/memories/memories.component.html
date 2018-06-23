@@ -1,5 +1,8 @@
 <mat-sidenav-container>
-  <mat-sidenav mode="side" opened="true">
+  <mat-sidenav mode="over" [opened]="_isSidebarOpen" (closedStart)="sidebarService.closeSidebar()">
+    <app-new-memory></app-new-memory>
+  </mat-sidenav>
+  <mat-sidenav position="end" mode="side" opened="true">
     <app-view-memories [listClickable]="true"></app-view-memories>
   </mat-sidenav>
   <mat-sidenav-content>

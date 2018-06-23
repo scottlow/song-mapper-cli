@@ -55,6 +55,9 @@ export class MemoryService {
           location: location,
           song: song
         }
+      })
+      .map((response: Memory) => {
+        newMemory._id = response._id;
       });
   }
 }

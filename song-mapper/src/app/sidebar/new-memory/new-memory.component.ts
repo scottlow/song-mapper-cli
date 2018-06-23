@@ -1,6 +1,5 @@
 import { Component, OnInit, NgZone, ViewChild, ElementRef, OnDestroy } from '@angular/core';
 import { MapsAPILoader } from '@agm/core';
-import { } from 'googlemaps';
 import { LocationService } from '../../services/location.service';
 import { PinLocation, Song, MemoryLocation } from '../../app.models';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
@@ -9,7 +8,6 @@ import {map} from 'rxjs/operators/map';
 import { MatAutocompleteSelectedEvent, MatVerticalStepper } from '@angular/material';
 import { SidebarService } from '../../services/sidebar.service';
 import { MemoryService } from '../../services/memory.service';
-import { } from 'spotify-api'
 import { SpotifyService } from '../../services/spotify.service';
 import { Subject } from 'rxjs/Subject';
 
@@ -93,6 +91,7 @@ export class NewMemoryComponent implements OnInit, OnDestroy {
       trackInfo.artists[0].name,
       trackInfo.uri,
       trackInfo.album.images[2].url,
+      true
     );
     this.memoryService.createMemory(this._memoryLocation, song).takeUntil(this.ngUnsubscribe).subscribe(response => {
       this.sidebarService.closeSidebar();

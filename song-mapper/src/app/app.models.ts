@@ -1,7 +1,7 @@
 class Memory {
     _id: String;
     song: Song;
-    location: MemoryLocation
+    location: MemoryLocation;
 
     constructor(song: Song, location: MemoryLocation) {
         this.song = song;
@@ -48,13 +48,15 @@ class Song {
     artist: String;
     spotifyURI: String;
     albumArtURI: String;
+    isSavedByCurrentUser: Boolean;
 
-    constructor(title: String, id: String, artist: String, spotifyURI: String, albumArtURI: String) {
+    constructor(title: String, id: String, artist: String, spotifyURI: String, albumArtURI: String, isSavedByCurrentUser: Boolean = false) {
         this.title = title;
         this.id = id;
         this.artist = artist;
         this.spotifyURI = spotifyURI;
         this.albumArtURI = albumArtURI;
+        this.isSavedByCurrentUser = isSavedByCurrentUser
     }
 }
 
