@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams, HttpRequest, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs/Observable';
 import { Constants } from "../../app.constants";
 import { User } from "../../app.models";
 import { StorageService } from '../storage.service';

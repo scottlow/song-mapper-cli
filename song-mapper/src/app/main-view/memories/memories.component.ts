@@ -6,7 +6,8 @@ import { Memory } from '../../app.models';
 import { MemoryService } from '../../services/memory.service';
 import { Constants } from '../../app.constants';
 import { LocationService } from '../../services/location.service';
-import { Subject } from 'rxjs/Subject';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-memories',
@@ -27,9 +28,9 @@ export class MemoriesComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
-    this.sidebarService.sidebar.takeUntil(this.ngUnsubscribe).subscribe(isSidebarOpen => this._isSidebarOpen = isSidebarOpen);
+    this.sidebarService.sidebar.pipe(takeUntil(this.ngUnsubscribe)).subscribe(isSidebarOpen => this._isSidebarOpen = isSidebarOpen);
 
-    this.memoryService.memories.takeUntil(this.ngUnsubscribe).subscribe(memories => {
+    this.memoryService.memories.pipe(takeUntil(this.ngUnsubscribe)).subscribe(memories => {
       this._memories = memories;
     });
 

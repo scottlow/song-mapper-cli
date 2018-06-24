@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
-import {PinLocation, MemoryLocation} from '../app.models';
+import { PinLocation, MemoryLocation } from '../app.models';
 import { StorageService } from './storage.service';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { Subject } from 'rxjs/Subject';
+import { Subject, BehaviorSubject } from 'rxjs';
 
 @Injectable()
 export class LocationService {

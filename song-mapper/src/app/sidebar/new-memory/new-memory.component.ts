@@ -2,14 +2,13 @@ import { Component, OnInit, NgZone, ViewChild, ElementRef, OnDestroy } from '@an
 import { MapsAPILoader } from '@agm/core';
 import { LocationService } from '../../services/location.service';
 import { PinLocation, Song, MemoryLocation } from '../../app.models';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import 'rxjs/add/operator/debounceTime';
-import {map} from 'rxjs/operators/map';
-import { MatAutocompleteSelectedEvent, MatVerticalStepper } from '@angular/material';
+import { FormBuilder, Validators } from '@angular/forms';
+import { map, debounceTime, takeUntil } from 'rxjs/operators';
+import { MatVerticalStepper } from '@angular/material';
 import { SidebarService } from '../../services/sidebar.service';
 import { MemoryService } from '../../services/memory.service';
 import { SpotifyService } from '../../services/spotify.service';
-import { Subject } from 'rxjs/Subject';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-new-memory',
@@ -48,12 +47,13 @@ export class NewMemoryComponent implements OnInit, OnDestroy {
     });
 
     // Subscribe to value changes
-    this.spotifyForm.get('spotifySearch').valueChanges.debounceTime(500)
+    this.spotifyForm.get('spotifySearch').valueChanges
     .pipe(
+      debounceTime(500),
       map(value => typeof value === 'string' || value === null ? value : value.name)
     )
     .subscribe(searchQuery => {
-      this._results = this.spotifyService.getSpotifySearchResults(searchQuery).map(response => response.tracks.items);
+      this._results = this.spotifyService.getSpotifySearchResults(searchQuery).pipe(map(response => response.tracks.items));
     });
 
     // Load the map
@@ -93,7 +93,7 @@ export class NewMemoryComponent implements OnInit, OnDestroy {
       trackInfo.album.images[2].url,
       true
     );
-    this.memoryService.createMemory(this._memoryLocation, song).takeUntil(this.ngUnsubscribe).subscribe(response => {
+    this.memoryService.createMemory(this._memoryLocation, song).pipe(takeUntil(this.ngUnsubscribe)).subscribe(response => {
       this.sidebarService.closeSidebar();
     });
   }

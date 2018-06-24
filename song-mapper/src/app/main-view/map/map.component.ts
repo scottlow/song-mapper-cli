@@ -1,12 +1,12 @@
 import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { StorageService } from '../../services/storage.service';
-import { Subscription } from 'rxjs/Subscription';
 import { LocationService } from '../../services/location.service';
 import { MemoryLocation, Memory } from '../../app.models';
 import { MemoryService } from '../../services/memory.service';
 import { SidebarService } from '../../services/sidebar.service';
 import { Constants } from '../../app.constants';
-import { Subject } from 'rxjs/Subject';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-map',
@@ -30,11 +30,11 @@ export class MapComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
-    this.sidebarService.sidebar.takeUntil(this.ngUnsubscribe).subscribe(isSidebarOpen => {
+    this.sidebarService.sidebar.pipe(takeUntil(this.ngUnsubscribe)).subscribe(isSidebarOpen => {
       if (!isSidebarOpen) this.hidePin();
     });
 
-    this.locationService.newMemoryPinLocation.takeUntil(this.ngUnsubscribe).subscribe(location => {
+    this.locationService.newMemoryPinLocation.pipe(takeUntil(this.ngUnsubscribe)).subscribe(location => {
       if (location == null) {
         this.hidePin();
         return;

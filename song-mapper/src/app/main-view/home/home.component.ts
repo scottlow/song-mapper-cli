@@ -8,7 +8,8 @@ import { AuthService } from '../../services/auth/auth.service';
 import { Router, NavigationEnd } from '@angular/router';
 import { MemoryService } from '../../services/memory.service';
 import { Memory } from '../../app.models';
-import { Subject } from 'rxjs/Subject';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-home',
@@ -27,7 +28,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     private router: Router,
     private memoryService: MemoryService
   ) {
-    this.router.events.takeUntil(this.ngUnsubscribe).subscribe(event => {
+    this.router.events.pipe(takeUntil(this.ngUnsubscribe)).subscribe(event => {
       if (event instanceof NavigationEnd && authService.isAuthenticated()) {
         this.spotifyService.getCurrentSong();
       }
@@ -35,9 +36,9 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.sidebarService.sidebar.takeUntil(this.ngUnsubscribe).subscribe(isSidebarOpen => this._isSidebarOpen = isSidebarOpen);
+    this.sidebarService.sidebar.pipe(takeUntil(this.ngUnsubscribe)).subscribe(isSidebarOpen => this._isSidebarOpen = isSidebarOpen);
 
-    this.memoryService.memories.takeUntil(this.ngUnsubscribe).subscribe(memories => {
+    this.memoryService.memories.pipe(takeUntil(this.ngUnsubscribe)).subscribe(memories => {
       this._memories = memories;
     });
 

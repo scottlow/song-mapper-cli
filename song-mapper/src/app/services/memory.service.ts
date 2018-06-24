@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs/Observable';
+import { Observable, Subject } from 'rxjs';
 import { Constants } from '../app.constants';
 import { MemoryLocation, Song, Memory } from '../app.models';
-import { Subject } from 'rxjs/Subject';
 import { AuthService } from './auth/auth.service';
+import { map } from 'rxjs/operators';
 
 @Injectable()
 export class MemoryService {
@@ -56,8 +56,8 @@ export class MemoryService {
           song: song
         }
       })
-      .map((response: Memory) => {
+      .pipe(map((response: Memory) => {
         newMemory._id = response._id;
-      });
+      }));
   }
 }

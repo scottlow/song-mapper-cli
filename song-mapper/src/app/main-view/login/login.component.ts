@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router }     from '@angular/router';
-import { Observable }         from 'rxjs/Observable';
-import 'rxjs/add/operator/map'
+import { ActivatedRoute, Router } from '@angular/router';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { AuthService } from '../../services/auth/auth.service';
 
 @Component({
