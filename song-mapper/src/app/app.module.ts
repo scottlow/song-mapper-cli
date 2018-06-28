@@ -30,6 +30,7 @@ import { ViewMemoriesComponent } from './sidebar/view-memories/view-memories.com
 import { PlayerComponent } from './player/player.component';
 import { MemoriesComponent } from './main-view/memories/memories.component';
 import { AuthGuardService } from './services/auth/auth-guard.service';
+import { DeviceListComponent } from './player/device-list/device-list.component';
 
 @NgModule({
   declarations: [
@@ -42,7 +43,8 @@ import { AuthGuardService } from './services/auth/auth-guard.service';
     NewMemoryComponent,
     ViewMemoriesComponent,
     PlayerComponent,
-    MemoriesComponent
+    MemoriesComponent,
+    DeviceListComponent
   ],
   imports: [
     BrowserModule,
@@ -53,9 +55,10 @@ import { AuthGuardService } from './services/auth/auth-guard.service';
       libraries: ['places']
     }),
     BrowserAnimationsModule,
-    MaterialModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MaterialModule
+
   ],
   providers: [
     AuthService,
@@ -72,7 +75,8 @@ import { AuthGuardService } from './services/auth/auth-guard.service';
     }
   ],
   entryComponents: [
-    PlayerComponent
+    PlayerComponent,
+    DeviceListComponent
   ],
   bootstrap: [AppComponent]
 })

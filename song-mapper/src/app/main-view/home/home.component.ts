@@ -42,6 +42,10 @@ export class HomeComponent implements OnInit, OnDestroy {
       this._memories = memories;
     });
 
+    if(this.authService.isAuthenticated()) {
+      this.spotifyService.getDeviceList();
+    }
+
     this.memoryService.getMemories();
   }
 

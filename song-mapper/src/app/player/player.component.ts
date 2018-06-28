@@ -4,6 +4,8 @@ import { Song } from '../app.models';
 import { PlaybackState } from '../app.constants';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { MatBottomSheet } from '@angular/material';
+import { DeviceListComponent } from './device-list/device-list.component';
 
 @Component({
   selector: 'app-player',
@@ -17,7 +19,8 @@ export class PlayerComponent implements OnInit, OnDestroy {
   private ngUnsubscribe: Subject<any> = new Subject();
 
   constructor(
-    private spotifyService: SpotifyService
+    private spotifyService: SpotifyService,
+    private bottomSheet: MatBottomSheet
   ) { }
 
   ngOnInit() {
@@ -44,6 +47,10 @@ export class PlayerComponent implements OnInit, OnDestroy {
 
   setVolume(): void {
     this.spotifyService.setVolume(this._currentVolume);
+  }
+
+  openDeviceList(): void {
+    this.bottomSheet.open(DeviceListComponent);
   }
 
   ngOnDestroy() {

@@ -84,7 +84,7 @@ export class NewMemoryComponent implements OnInit, OnDestroy {
   }
 
   createMemory() : void {
-    let trackInfo: SpotifyApi.TrackObjectFull = this.spotifyForm.get('spotifySearch').value;
+    let trackInfo = this.spotifyForm.get('spotifySearch').value;
     let song = new Song(
       trackInfo.name,
       trackInfo.id,

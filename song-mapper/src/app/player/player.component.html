@@ -18,7 +18,7 @@
           <mat-icon>skip_next</mat-icon>
         </button>
         <mat-slider [(ngModel)]="_currentVolume" min="0" max="100" step="1" (change)="setVolume()"></mat-slider>
-        <button mat-icon-button>
+        <button mat-icon-button (click)="openDeviceList()">
           <mat-icon>devices</mat-icon>
         </button>
       </section>

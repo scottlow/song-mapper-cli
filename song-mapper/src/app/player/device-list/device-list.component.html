@@ -1,0 +1,5 @@
+<mat-selection-list id="deviceList" (selectionChange)="handleDeviceSelection($event)">
+  <mat-list-option *ngFor="let device of _deviceList | async" [value]="device" [selected]="device.id === _activeDevice.id">
+    {{device.name}}
+  </mat-list-option>
+</mat-selection-list>

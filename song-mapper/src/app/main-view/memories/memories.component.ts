@@ -33,14 +33,14 @@ export class MemoriesComponent implements OnInit, OnDestroy {
     this.memoryService.memories.pipe(takeUntil(this.ngUnsubscribe)).subscribe(memories => {
       this._memories = memories;
     });
-
+``
     if (this.authService.isAuthenticated()) {
       this.spotifyService.getCurrentSong();
+      this.spotifyService.getDeviceList();
+      this.memoryService.getCurrentUsersMemories();
     }
 
-    this.memoryService.getCurrentUsersMemories();
     this.locationService.clearCurrentlySelectedLocation();
-
   }
 
   get newMemoryState() {
