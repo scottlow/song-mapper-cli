@@ -3,6 +3,7 @@ import { HttpClient, HttpParams, HttpRequest, HttpHeaders } from '@angular/commo
 import { Constants } from "../../app.constants";
 import { User } from "../../app.models";
 import { StorageService } from '../storage.service';
+import { empty } from 'rxjs/observable/empty';
 
 @Injectable()
 export class AuthService {
@@ -21,6 +22,10 @@ export class AuthService {
       });
     });
   }
+
+  getRefreshToken() {
+    return this.http.post(Constants.API_URL + '/refresh-token', { user_id: this.getCurrentUser()._id });
+  } 
 
   startSpotifyAuth(): void {
     var params = new HttpParams()
@@ -42,6 +47,12 @@ export class AuthService {
     return user.token;
   }
 
+  setUserToken(token: string): void {
+    let user = this.getCurrentUser();
+    user.token = token;
+    this.saveCurrentUser(user);
+  }
+
   getCurrentUser(): User {
     return JSON.parse(this.storage.get('currentUser'));
   }
@@ -51,7 +62,8 @@ export class AuthService {
     return user ? true : false;
   }
 
-  logout(): void {
+  logout() {
     this.storage.remove('currentUser');
+    return empty();
   }
 }

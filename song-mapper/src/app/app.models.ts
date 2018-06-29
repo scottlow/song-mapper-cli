@@ -10,6 +10,7 @@ class Memory {
 }
 
 class User {
+    _id: String;
     token: string;
     displayName: string;
     profileImageURI: string;
