@@ -32,6 +32,9 @@ import { MemoriesComponent } from './main-view/memories/memories.component';
 import { AuthGuardService } from './services/auth/auth-guard.service';
 import { DeviceListComponent } from './player/device-list/device-list.component';
 
+import { DeviceDetectorModule } from 'ngx-device-detector';
+import { MessageService } from './services/message.service';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -57,7 +60,8 @@ import { DeviceListComponent } from './player/device-list/device-list.component'
     BrowserAnimationsModule,
     FormsModule,
     ReactiveFormsModule,
-    MaterialModule
+    MaterialModule,
+    DeviceDetectorModule.forRoot()
 
   ],
   providers: [
@@ -72,11 +76,13 @@ import { DeviceListComponent } from './player/device-list/device-list.component'
       provide: HTTP_INTERCEPTORS,
       useClass: TokenInterceptor,
       multi: true
-    }
+    },
+    MessageService
   ],
   entryComponents: [
     PlayerComponent,
-    DeviceListComponent
+    DeviceListComponent,
+    ViewMemoriesComponent
   ],
   bootstrap: [AppComponent]
 })

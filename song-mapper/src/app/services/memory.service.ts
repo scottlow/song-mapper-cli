@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, Subject } from 'rxjs';
+import { Observable, BehaviorSubject } from 'rxjs';
 import { Constants } from '../app.constants';
 import { MemoryLocation, Song, Memory } from '../app.models';
 import { AuthService } from './auth/auth.service';
@@ -8,7 +8,7 @@ import { map } from 'rxjs/operators';
 
 @Injectable()
 export class MemoryService {
-  private _memories = new Subject<Memory[]>();
+  private _memories = new BehaviorSubject<Memory[]>([]);
   memories = this._memories.asObservable();
   private dataStore: {
     memories: Memory[]

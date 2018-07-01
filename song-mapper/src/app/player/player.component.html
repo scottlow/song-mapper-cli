@@ -4,8 +4,8 @@
       <section class="mat-typography" id="player">
         <img src="{{ _currentlyPlayingSong?.albumArtURI }}">
         <section id="song-info-container">
-          <div>{{ _currentlyPlayingSong?.title }}</div>
-          <div class="mat-caption">{{ _currentlyPlayingSong?.artist }}</div>
+          <div class="text-truncate" >{{ _currentlyPlayingSong?.title }}</div>
+          <div class=" text-truncate mat-caption">{{ _currentlyPlayingSong?.artist }}</div>
         </section>
         <button mat-icon-button>
           <mat-icon>skip_previous</mat-icon>
@@ -17,7 +17,7 @@
         <button mat-icon-button>
           <mat-icon>skip_next</mat-icon>
         </button>
-        <mat-slider [(ngModel)]="_currentVolume" min="0" max="100" step="1" (change)="setVolume()"></mat-slider>
+        <mat-slider *ngIf="shouldShowVolumeSlider()" [(ngModel)]="_currentVolume" min="0" max="100" step="1" (change)="setVolume()"></mat-slider>
         <button mat-icon-button (click)="openDeviceList()">
           <mat-icon>devices</mat-icon>
         </button>

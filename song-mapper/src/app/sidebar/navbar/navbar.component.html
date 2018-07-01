@@ -1,6 +1,7 @@
 <mat-toolbar color="primary">
-  <span>{{title}}</span>
-  <button *ngIf="authService.isAuthenticated()" (click) = "showHome()" mat-button>Explore</button>
+  <span *ngIf="!deviceService.isMobile()">{{title}}</span>
+  <span *ngIf="deviceService.isMobile()">{{shortTitle}}</span>
+  <button *ngIf="authService.isAuthenticated()" (click)="showHome()" mat-button>Explore</button>
   <button *ngIf="authService.isAuthenticated()" (click)="showMemories()" mat-button>My Memories</button>
   <span class="fill-remaining-space"></span>
   <button *ngIf="!authService.isAuthenticated()" mat-button (click)="login()" type="submit">Log In</button>

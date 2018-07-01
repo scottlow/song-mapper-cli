@@ -46,6 +46,7 @@
 
 #song-info-container {
   padding-left: 10px;
+  max-width: 75px;
 }
 
 #play-button {
@@ -58,4 +59,10 @@
   height: 50px;
   width: 50px;
   line-height: 1;
+}
+
+.text-truncate {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }

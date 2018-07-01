@@ -5,6 +5,7 @@ import { AuthService } from '../../services/auth/auth.service';
 import { MatSidenav } from '@angular/material';
 import { SidebarService } from '../../services/sidebar.service';
 import { Router } from '@angular/router';
+import { DeviceDetectorService } from 'ngx-device-detector';
 
 @Component({
   selector: 'app-navbar',
@@ -12,12 +13,14 @@ import { Router } from '@angular/router';
   styleUrls: ['./navbar.component.css']
 })
 export class NavbarComponent {
-  title = Constants.APP_TITLE;
+  private title = Constants.APP_TITLE;
+  private shortTitle = Constants.SHORT_APP_TITLE;
 
   constructor(
     private authService: AuthService,
     private sidebarService: SidebarService,
-    private router: Router
+    private router: Router,
+    private deviceService: DeviceDetectorService
   ) {}
 
   login(): void {

@@ -6,7 +6,7 @@ import { HttpClient } from '@angular/common/http';
 import { AuthService } from '../../services/auth/auth.service';
 import { SpotifyService } from '../../services/spotify.service';
 import { MemoryService } from '../../services/memory.service';
-import { first, takeUntil } from 'rxjs/operators';
+import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 
 @Component({
@@ -15,7 +15,7 @@ import { Subject } from 'rxjs';
   styleUrls: ['./view-memories.component.css']
 })
 export class ViewMemoriesComponent implements OnInit, OnDestroy {
-  @Input() listClickable: Boolean = false;
+  @Input() listClickable: Boolean = true;
   private _selectedLocation: MemoryLocation;
   private _memoriesToDisplay: Memory[] = new Array<Memory>();
   private _currentlyPlayingSong: Song;

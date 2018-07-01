@@ -2,11 +2,11 @@
   <mat-sidenav mode="over" [opened]="_isSidebarOpen" (closedStart)="sidebarService.closeSidebar()">
     <app-new-memory></app-new-memory>
   </mat-sidenav>
-  <mat-sidenav position="end" mode="side" opened="true">
-    <app-view-memories [listClickable]="true"></app-view-memories>
+  <mat-sidenav *ngIf="!deviceService.isMobile()" position="end" mode="side" opened="true">
+    <app-view-memories></app-view-memories>
   </mat-sidenav>
   <mat-sidenav-content>
-    <app-map [markerClickable]="false" [memories]="_memories"></app-map>
+    <app-map [memories]="_memories"></app-map>
   </mat-sidenav-content>
 </mat-sidenav-container>
 

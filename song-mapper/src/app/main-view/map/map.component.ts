@@ -7,6 +7,7 @@ import { SidebarService } from '../../services/sidebar.service';
 import { Constants } from '../../app.constants';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { MessageService } from '../../services/message.service';
 
 @Component({
   selector: 'app-map',
@@ -23,10 +24,9 @@ export class MapComponent implements OnInit, OnDestroy {
   private ngUnsubscribe: Subject<any> = new Subject();
 
   constructor(
-    private storage: StorageService,
     private locationService: LocationService,
-    private memoryService: MemoryService,
-    private sidebarService: SidebarService
+    private sidebarService: SidebarService,
+    private messageService: MessageService
   ) { }
 
   ngOnInit() {
@@ -52,9 +52,8 @@ export class MapComponent implements OnInit, OnDestroy {
     this.showNewMemoryPin = false;
   }
 
-  updateSelectedLocation(memoryLocation: MemoryLocation): void {
-    this.locationService.updateSelectedLocation(memoryLocation);
-    this.sidebarService.openSidebar(Constants.SIDEBAR_VIEW_MEMORIES);
+  handleMarkerClick(memoryLocation: MemoryLocation): void {
+    this.messageService.sendMarkerMessage(memoryLocation);
   }
 
   ngOnDestroy() {

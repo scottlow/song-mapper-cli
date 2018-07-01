@@ -6,6 +6,7 @@ export enum PlaybackState {
 
 export class Constants {
     public static get APP_TITLE(): string { return 'Song Mapper'; };
+    public static get SHORT_APP_TITLE(): string { return 'SM'; };
 
     public static get API_URL(): string { return 'http://localhost:3001/api' };
 

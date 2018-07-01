@@ -6,6 +6,7 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { MatBottomSheet } from '@angular/material';
 import { DeviceListComponent } from './device-list/device-list.component';
+import { DeviceDetectorService } from 'ngx-device-detector';
 
 @Component({
   selector: 'app-player',
@@ -20,7 +21,8 @@ export class PlayerComponent implements OnInit, OnDestroy {
 
   constructor(
     private spotifyService: SpotifyService,
-    private bottomSheet: MatBottomSheet
+    private bottomSheet: MatBottomSheet,
+    private deviceService: DeviceDetectorService
   ) { }
 
   ngOnInit() {
@@ -38,11 +40,15 @@ export class PlayerComponent implements OnInit, OnDestroy {
     // Subscribe to current volume
     this.spotifyService.currentVolume.pipe(takeUntil(this.ngUnsubscribe)).subscribe(currentVolume => {
       this._currentVolume = currentVolume;
-    });
+    }); 
   }
 
   shouldShowPauseButton(): Boolean {
     return this._playbackState == PlaybackState.Playing;
+  }
+
+  shouldShowVolumeSlider(): Boolean {
+    return !this.deviceService.isMobile();
   }
 
   setVolume(): void {

@@ -8,6 +8,10 @@ import { Constants } from '../../app.constants';
 import { LocationService } from '../../services/location.service';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { DeviceDetectorService } from 'ngx-device-detector';
+import { MatBottomSheet } from '@angular/material';
+import { ViewMemoriesComponent } from '../../sidebar/view-memories/view-memories.component';
+import { MessageService } from '../../services/message.service';
 
 @Component({
   selector: 'app-memories',
@@ -24,16 +28,26 @@ export class MemoriesComponent implements OnInit, OnDestroy {
     private spotifyService: SpotifyService,
     private authService: AuthService,
     private memoryService: MemoryService,
-    private locationService: LocationService
+    private locationService: LocationService,
+    private deviceService: DeviceDetectorService,
+    private bottomSheet: MatBottomSheet,
+    private messageService: MessageService
   ) { }
 
   ngOnInit() {
+    
+    if(this.deviceService.isMobile()) {
+      this.messageService.markerMessages.pipe(takeUntil(this.ngUnsubscribe)).subscribe(() => {
+        this.bottomSheet.open(ViewMemoriesComponent);
+      });
+    }
+
     this.sidebarService.sidebar.pipe(takeUntil(this.ngUnsubscribe)).subscribe(isSidebarOpen => this._isSidebarOpen = isSidebarOpen);
 
     this.memoryService.memories.pipe(takeUntil(this.ngUnsubscribe)).subscribe(memories => {
       this._memories = memories;
     });
-``
+
     if (this.authService.isAuthenticated()) {
       this.spotifyService.getCurrentSong();
       this.spotifyService.getDeviceList();
