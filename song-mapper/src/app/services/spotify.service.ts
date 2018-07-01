@@ -4,6 +4,8 @@ import { HttpClient } from '@angular/common/http';
 import { Constants, PlaybackState } from '../app.constants';
 import { StorageService } from './storage.service';
 import { Observable, BehaviorSubject } from 'rxjs';
+import { map, catchError } from 'rxjs/operators';
+import { of } from 'rxjs/observable/of';
 
 @Injectable()
 export class SpotifyService {
@@ -27,10 +29,14 @@ export class SpotifyService {
     return this.http.get(Constants.API_URL + '/spotify/search', { params: { q: query } });
   }
 
-  setActiveDevice(device: any): void {
-    this.http.post(Constants.API_URL + '/spotify/playback/set-player', { device_ids: [device.id] }).subscribe(() => {
-      this._activeDevice.next(device);
-    });
+  setActiveDevice(device: any): any {
+    return this.http.post(Constants.API_URL + '/spotify/playback/set-player', { device_ids: [device.id] }).pipe(
+      map(
+      () => {
+        this._activeDevice.next(device);
+        this._currentVolume.next(device.volume_percent);
+      })
+    );
   }
 
   getDeviceList(): void {

@@ -19,10 +19,15 @@ export class DeviceListComponent implements OnInit, OnDestroy {
   ) { }
 
   handleDeviceSelection(event: MatSelectionListChange) {
+    let oldSelection = event.source.selectedOptions.selected[0];
     if (event.option.selected) {
       event.source.deselectAll();
       event.option._setSelected(true);
-      this.spotifyService.setActiveDevice(event.option.value)
+      this.spotifyService.setActiveDevice(event.option.value).subscribe(null, (err) => {
+        event.source.deselectAll();
+        oldSelection._setSelected(true);
+        this.spotifyService.getDeviceList();
+      });
     } else {
       // Disable complete deselection
       event.option._setSelected(true);
@@ -30,6 +35,7 @@ export class DeviceListComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.spotifyService.getDeviceList();
     this._deviceList = this.spotifyService.deviceList;
     this.spotifyService.activeDevice.pipe(takeUntil(this.ngUnsubscribe)).subscribe(activeDevice => {
       this._activeDevice = activeDevice;
