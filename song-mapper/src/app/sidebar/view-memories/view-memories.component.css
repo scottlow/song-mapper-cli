@@ -11,3 +11,15 @@ mat-nav-list {
 .playback-icon {
     margin-left: 16px;
 }
+
+.memory-info {
+    font-size: 10px !important;
+}
+
+.memory-info-separator {
+    margin-top: 7px !important;
+}
+
+mat-icon[inline] {
+    vertical-align: middle;
+}
