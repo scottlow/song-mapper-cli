@@ -2,10 +2,12 @@ class Memory {
     _id: String;
     song: Song;
     location: MemoryLocation;
+    createdAt: Date;
 
     constructor(song: Song, location: MemoryLocation) {
         this.song = song;
         this.location = location;
+        this.createdAt = new Date(Date.now());
     }
 }
 

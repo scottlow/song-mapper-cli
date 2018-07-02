@@ -8,7 +8,7 @@
       <button mat-button matStepperNext type="button">Next</button>
     </form>
   </mat-step>
-  <mat-step label="Pick a Song" [stepControl]="spotifyForm">
+  <mat-step label="Search for a Song" [stepControl]="spotifyForm">
     <form [formGroup]="spotifyForm">
       <mat-form-field>
         <input matInput type="text" spellcheck="off" autocapitalize="off" id="songSearch" placeholder="Search for a song" [matAutocomplete]="spotify"
@@ -19,6 +19,8 @@
           <img class="album-image" src="{{ result.album.images[2].url }}" /> {{ getTrackString(result) }}
         </mat-option>
       </mat-autocomplete>
+      <span>Or</span>
+      <button (click)="getCurrentlyPlayingTrack()" mat-raised-button class="currently-playing-button">Use currently playing</button> 
       <div>
         <button mat-button matStepperPrevious type="button">Previous</button>
         <button mat-button (click)="createMemory()" type="button">Create Memory</button>

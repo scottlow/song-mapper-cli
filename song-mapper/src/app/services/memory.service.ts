@@ -46,7 +46,7 @@ export class MemoryService {
 
   createMemory(location: MemoryLocation, song: Song): Observable<any> {
     let newMemory = new Memory(song, location);
-    this.dataStore.memories = this.dataStore.memories.concat(newMemory);
+    this.dataStore.memories.unshift(newMemory);
     this._memories.next(Object.assign({}, this.dataStore).memories);
 
     return this.http

@@ -54,7 +54,6 @@ export class TokenInterceptor implements HttpInterceptor {
     return req.clone({
       setHeaders: {
         'x-access-token': this.authService.getUserToken()
-        // 'x-access-token': 'fyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjViMmRlNTkwM2Q3OGUyNzc2OGYyZTUyYiIsImlhdCI6MTUzMDIzODkxOCwiZXhwIjoxNTMwODQzNzE4fQ.L_q46JSMkWbw4Cqmln02YBKbRwJk75tnaHVhP-3IUgE'
       }
     });
   }

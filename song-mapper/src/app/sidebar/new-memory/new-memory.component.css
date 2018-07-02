@@ -8,3 +8,8 @@ mat-form-field {
     padding-right: 5px;
     vertical-align: middle;
 }
+
+.currently-playing-button {
+    margin-left: 10px;
+    margin-bottom: 10px;
+}

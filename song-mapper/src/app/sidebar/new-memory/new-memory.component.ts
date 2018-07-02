@@ -20,6 +20,7 @@ export class NewMemoryComponent implements OnInit, OnDestroy {
   @ViewChild("placeSearch") private placeSearchElementRef: ElementRef;
   @ViewChild("stepper") private stepper: MatVerticalStepper
   private _results;
+  private _currentlyPlayingSong;
   private _memoryLocation : MemoryLocation;
   private ngUnsubscribe: Subject<any> = new Subject();
 
@@ -45,6 +46,11 @@ export class NewMemoryComponent implements OnInit, OnDestroy {
     this.sidebarService.sidebar.subscribe(isSidebarOpen => {
       if(!isSidebarOpen) this.stepper.reset();
     });
+
+    this.spotifyService.currentlyPlayingSong.pipe(takeUntil(this.ngUnsubscribe)).subscribe(currentlyPlayingSong => {
+      this._currentlyPlayingSong = currentlyPlayingSong;
+    });
+
 
     // Subscribe to value changes
     this.spotifyForm.get('spotifySearch').valueChanges
@@ -80,12 +86,12 @@ export class NewMemoryComponent implements OnInit, OnDestroy {
   }
 
   getTrackString(track: any): string | undefined {
-    return track ? track.name + ' - ' + track.artists[0].name : undefined;
+    return track ? (track.name ? track.name : track.title) + ' - ' + (track.artists ? track.artists[0].name : track.artist) : undefined;
   }
 
   createMemory() : void {
     let trackInfo = this.spotifyForm.get('spotifySearch').value;
-    let song = new Song(
+    let song = trackInfo instanceof Song ? trackInfo : new Song(
       trackInfo.name,
       trackInfo.id,
       trackInfo.artists[0].name,
@@ -96,6 +102,10 @@ export class NewMemoryComponent implements OnInit, OnDestroy {
     this.memoryService.createMemory(this._memoryLocation, song).pipe(takeUntil(this.ngUnsubscribe)).subscribe(response => {
       this.sidebarService.closeSidebar();
     });
+  }
+  
+  getCurrentlyPlayingTrack() {
+    this.spotifyForm.get('spotifySearch').setValue(this._currentlyPlayingSong);
   }
 
   ngOnDestroy() {
