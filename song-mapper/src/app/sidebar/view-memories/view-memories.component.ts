@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, Input } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input, ChangeDetectorRef } from '@angular/core';
 import { LocationService } from '../../services/location.service';
 import { MemoryLocation, Song, Memory, PinLocation } from '../../app.models';
 import { Constants, PlaybackState } from '../../app.constants';
@@ -8,6 +8,7 @@ import { SpotifyService } from '../../services/spotify.service';
 import { MemoryService } from '../../services/memory.service';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
+import { DeviceDetectorService } from 'ngx-device-detector';
 
 @Component({
   selector: 'app-view-memories',
@@ -27,7 +28,9 @@ export class ViewMemoriesComponent implements OnInit, OnDestroy {
     private http: HttpClient,
     private authService: AuthService,
     private spotifyService: SpotifyService,
-    private memoryService: MemoryService
+    private memoryService: MemoryService,
+    private deviceService: DeviceDetectorService,
+    private ref:ChangeDetectorRef
   ) {
     this._playbackState = PlaybackState.Stopped;
   }
@@ -50,10 +53,12 @@ export class ViewMemoriesComponent implements OnInit, OnDestroy {
 
     this.spotifyService.currentlyPlayingSong.pipe(takeUntil(this.ngUnsubscribe)).subscribe(currentlyPlayingSong => {
       this._currentlyPlayingSong = currentlyPlayingSong;
+      if(this.deviceService.isMobile()) this.ref.detectChanges(); // hack required to force UI refresh 
     });
 
     this.spotifyService.playbackState.pipe(takeUntil(this.ngUnsubscribe)).subscribe(playbackState => {
       this._playbackState = playbackState;
+      if(this.deviceService.isMobile()) this.ref.detectChanges(); // hack required to force UI refresh 
     });
   }
 
