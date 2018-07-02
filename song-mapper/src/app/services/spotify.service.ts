@@ -4,8 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { Constants, PlaybackState } from '../app.constants';
 import { StorageService } from './storage.service';
 import { Observable, BehaviorSubject } from 'rxjs';
-import { map, catchError } from 'rxjs/operators';
-import { of } from 'rxjs/observable/of';
+import { map } from 'rxjs/operators';
 
 @Injectable()
 export class SpotifyService {
@@ -26,6 +25,17 @@ export class SpotifyService {
     private http: HttpClient,
     private storage: StorageService
   ) { }
+
+  clearRefreshTimeout() {
+    clearTimeout(this._currentTimeout);
+  }
+
+  refreshCurrentSong() {
+    this.clearRefreshTimeout();
+    setTimeout(() => {
+      this.getCurrentSong();
+    }, this.TIMEOUT_DELAY)
+  }
 
   getSpotifySearchResults(query: string): Observable<any> {
     return this.http.get(Constants.API_URL + '/spotify/search', { params: { q: query } });
@@ -75,7 +85,7 @@ export class SpotifyService {
         if (shouldRefresh && response.is_playing) {
           let progress = response.progress_ms;
           let duration = response.item.duration_ms;
-  
+
           this._currentTimeout = setTimeout(() => {
             this.getCurrentSong(false);
           }, duration - progress + this.TIMEOUT_DELAY);
@@ -88,9 +98,7 @@ export class SpotifyService {
   resumePlayback() {
     this.http.post(Constants.API_URL + '/spotify/playback/play', undefined).subscribe(response => {
       this._playbackState.next(PlaybackState.Playing);
-      setTimeout(() => {
-        this.getCurrentSong();
-      }, this.TIMEOUT_DELAY)
+      this.refreshCurrentSong();
     });
   }
 
@@ -107,17 +115,21 @@ export class SpotifyService {
     }).subscribe(() => {
       this._playbackState.next(PlaybackState.Playing);
       this._currentlyPlayingSong.next(songs[0]);
-      setTimeout(() => {
-        this.getCurrentSong();
-      }, this.TIMEOUT_DELAY)
+      this.refreshCurrentSong();
     });
   }
 
-  clearRefreshTimeout() {
-    clearTimeout(this._currentTimeout);
+  nextSong() {
+    this.http.post(Constants.API_URL + '/spotify/playback/next', undefined).subscribe();
+    this.refreshCurrentSong();
   }
 
-  pauseSong(song: Song) {
+  previousSong() {
+    this.http.post(Constants.API_URL + '/spotify/playback/previous', undefined).subscribe();
+    this.refreshCurrentSong();
+  }
+
+  pauseSong() {
     this.clearRefreshTimeout();
     this.http.post(Constants.API_URL + '/spotify/playback/pause', undefined).subscribe(response => {
       this._playbackState.next(PlaybackState.Paused);

@@ -7,14 +7,14 @@
           <div class="text-truncate" >{{ _currentlyPlayingSong?.title }}</div>
           <div class=" text-truncate mat-caption">{{ _currentlyPlayingSong?.artist }}</div>
         </section>
-        <button mat-icon-button>
+        <button (click)="spotifyService.previousSong()" mat-icon-button>
           <mat-icon>skip_previous</mat-icon>
         </button>
         <button id="play-button" mat-icon-button>
           <mat-icon (click)="spotifyService.resumePlayback()" *ngIf="!shouldShowPauseButton()" class="play-button-icon">play_circle_outline</mat-icon>
           <mat-icon (click)="spotifyService.pauseSong()" *ngIf="shouldShowPauseButton()" class="play-button-icon">pause_circle_outline</mat-icon>
         </button>
-        <button mat-icon-button>
+        <button (click)="spotifyService.nextSong()" mat-icon-button>
           <mat-icon>skip_next</mat-icon>
         </button>
         <mat-slider *ngIf="shouldShowVolumeSlider()" [(ngModel)]="_currentVolume" min="0" max="100" step="1" (change)="setVolume()"></mat-slider>
