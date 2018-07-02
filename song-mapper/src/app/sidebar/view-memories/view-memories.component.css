@@ -23,3 +23,8 @@ mat-nav-list {
 mat-icon[inline] {
     vertical-align: middle;
 }
+
+.view-memories-header {
+    display: flex;
+    justify-content: space-between;
+}

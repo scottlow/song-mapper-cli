@@ -78,6 +78,11 @@ export class ViewMemoriesComponent implements OnInit, OnDestroy {
     this.locationService.updateNewMemoryPinLocation(location);
   }
 
+  playAll() {
+    let songURIsToPlay = this._memoriesToDisplay.map(memory => memory.song);
+    this.spotifyService.playSongs(songURIsToPlay);
+  }
+
   ngOnDestroy() {
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();

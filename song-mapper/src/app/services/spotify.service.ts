@@ -71,15 +71,15 @@ export class SpotifyService {
         let song = new Song(songObj.name, songObj.id, songObj.artists[0].name, songObj.uri, songObj.album.images[2].url);
         this._currentlyPlayingSong.next(song);
         this._playbackState.next(songObj ? response.is_playing ? PlaybackState.Playing : PlaybackState.Paused : PlaybackState.Stopped);
-      }
 
-      if (shouldRefresh && response.is_playing) {
-        let progress = response.progress_ms;
-        let duration = response.item.duration_ms;
-
-        this._currentTimeout = setTimeout(() => {
-          this.getCurrentSong(false);
-        }, duration - progress + this.TIMEOUT_DELAY);
+        if (shouldRefresh && response.is_playing) {
+          let progress = response.progress_ms;
+          let duration = response.item.duration_ms;
+  
+          this._currentTimeout = setTimeout(() => {
+            this.getCurrentSong(false);
+          }, duration - progress + this.TIMEOUT_DELAY);
+        }
       }
     });
 
@@ -95,12 +95,18 @@ export class SpotifyService {
   }
 
   playSong(song: Song) {
-    var currentSongValue = this._currentlyPlayingSong.getValue();
+    this.playSongs([song]);
+  }
+
+  playSongs(songs: Song[]) {
+    let currentSongValue = this._currentlyPlayingSong.getValue();
+    let shouldResumePlaying = currentSongValue && songs.length == 1 && currentSongValue.spotifyURI == songs[0].spotifyURI
+
     this.http.post(Constants.API_URL + '/spotify/playback/play', {
-      uris: currentSongValue && currentSongValue.spotifyURI == song.spotifyURI ? undefined : [song.spotifyURI]
+      uris: shouldResumePlaying ? undefined : songs.map(song => song.spotifyURI)
     }).subscribe(() => {
       this._playbackState.next(PlaybackState.Playing);
-      this._currentlyPlayingSong.next(song);
+      this._currentlyPlayingSong.next(songs[0]);
       setTimeout(() => {
         this.getCurrentSong();
       }, this.TIMEOUT_DELAY)

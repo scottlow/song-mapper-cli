@@ -1,5 +1,8 @@
 <mat-nav-list>
-    <h3 matSubheader>{{ this._selectedLocation ? this._selectedLocation.name : 'Your memories' }}</h3>
+    <span matSubheader class="view-memories-header">
+      <p>{{ this._selectedLocation ? this._selectedLocation.name : 'Your memories' }}</p>
+      <button mat-button (click)="playAll()">Play All</button>
+    </span>
     <a [disableRipple]="!listClickable" (click)="listClickable ? showSongLocation(memory.location.pinLocation) : null" mat-list-item *ngFor="let memory of _memoriesToDisplay">
       <img matListAvatar src="{{ memory.song.albumArtURI }}" />
       <h3 matLine>{{ memory.song.title }}</h3>
