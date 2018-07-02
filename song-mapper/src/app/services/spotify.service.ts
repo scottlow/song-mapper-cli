@@ -14,6 +14,8 @@ export class SpotifyService {
   private _currentVolume = new BehaviorSubject<Number>(0);
   private _deviceList = new BehaviorSubject(undefined);
   private _activeDevice = new BehaviorSubject(undefined);
+  private _currentTimeout;
+  private TIMEOUT_DELAY = 750;
   public currentlyPlayingSong = this._currentlyPlayingSong.asObservable();
   public playbackState = this._playbackState.asObservable();
   public currentVolume = this._currentVolume.asObservable();
@@ -32,10 +34,10 @@ export class SpotifyService {
   setActiveDevice(device: any): any {
     return this.http.post(Constants.API_URL + '/spotify/playback/set-player', { device_ids: [device.id] }).pipe(
       map(
-      () => {
-        this._activeDevice.next(device);
-        this._currentVolume.next(device.volume_percent);
-      })
+        () => {
+          this._activeDevice.next(device);
+          this._currentVolume.next(device.volume_percent);
+        })
     );
   }
 
@@ -46,12 +48,12 @@ export class SpotifyService {
       if (response) {
         let didSetActiveDevice = false;
         response.devices.forEach(device => {
-          if(device.is_active) {
+          if (device.is_active) {
             this._activeDevice.next(device);
             didSetActiveDevice = true;
           }
         });
-        if(!didSetActiveDevice) {
+        if (!didSetActiveDevice) {
           let defaultDevice = response.devices[0];
           this._activeDevice.next(defaultDevice);
         }
@@ -59,26 +61,36 @@ export class SpotifyService {
     });
   }
 
-  getCurrentSong(): void {
-    if (this._currentlyPlayingSong.getValue() == undefined) {
-      this.http.get<any>(Constants.API_URL + '/spotify/playback', {
-      }).subscribe(response => {
-        if (response) {
-          let device = response.device;
-          this._currentVolume.next(device.volume_percent);
+  getCurrentSong(shouldRefresh: Boolean = true): void {
+    this.http.get<any>(Constants.API_URL + '/spotify/playback', {
+    }).subscribe(response => {
+      if (response) {
+        let device = response.device;
+        this._currentVolume.next(device.volume_percent);
+        let songObj = response.item;
+        let song = new Song(songObj.name, songObj.id, songObj.artists[0].name, songObj.uri, songObj.album.images[2].url);
+        this._currentlyPlayingSong.next(song);
+        this._playbackState.next(songObj ? response.is_playing ? PlaybackState.Playing : PlaybackState.Paused : PlaybackState.Stopped);
+      }
 
-          let songObj = response.item;
-          let song = new Song(songObj.name, songObj.id, songObj.artists[0].name, songObj.uri, songObj.album.images[2].url);
-          this._currentlyPlayingSong.next(song);
-          this._playbackState.next(songObj ? response.is_playing ? PlaybackState.Playing : PlaybackState.Paused : PlaybackState.Stopped);
-        }
-      });
-    }
+      if (shouldRefresh && response.is_playing) {
+        let progress = response.progress_ms;
+        let duration = response.item.duration_ms;
+
+        this._currentTimeout = setTimeout(() => {
+          this.getCurrentSong(false);
+        }, duration - progress + this.TIMEOUT_DELAY);
+      }
+    });
+
   }
 
   resumePlayback() {
     this.http.post(Constants.API_URL + '/spotify/playback/play', undefined).subscribe(response => {
       this._playbackState.next(PlaybackState.Playing);
+      setTimeout(() => {
+        this.getCurrentSong();
+      }, this.TIMEOUT_DELAY)
     });
   }
 
@@ -87,18 +99,26 @@ export class SpotifyService {
     this.http.post(Constants.API_URL + '/spotify/playback/play', {
       uris: currentSongValue && currentSongValue.spotifyURI == song.spotifyURI ? undefined : [song.spotifyURI]
     }).subscribe(() => {
-        this._playbackState.next(PlaybackState.Playing);
-        this._currentlyPlayingSong.next(song);
-      });
+      this._playbackState.next(PlaybackState.Playing);
+      this._currentlyPlayingSong.next(song);
+      setTimeout(() => {
+        this.getCurrentSong();
+      }, this.TIMEOUT_DELAY)
+    });
+  }
+
+  clearRefreshTimeout() {
+    clearTimeout(this._currentTimeout);
   }
 
   pauseSong(song: Song) {
+    this.clearRefreshTimeout();
     this.http.post(Constants.API_URL + '/spotify/playback/pause', undefined).subscribe(response => {
       this._playbackState.next(PlaybackState.Paused);
     });
   }
 
   setVolume(newVolume: Number) {
-    this.http.post(Constants.API_URL + '/spotify/playback/volume', {volume_percent: newVolume}).subscribe();
+    this.http.post(Constants.API_URL + '/spotify/playback/volume', { volume_percent: newVolume }).subscribe();
   }
 }

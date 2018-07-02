@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, HostListener } from '@angular/core';
 import { SidebarService } from '../../services/sidebar.service';
 import { Constants } from '../../app.constants';
 import { SpotifyService } from '../../services/spotify.service';
@@ -35,6 +35,16 @@ export class HomeComponent implements OnInit, OnDestroy {
         this.spotifyService.getCurrentSong();
       }
     });
+  }
+
+  @HostListener('window:focus', ['$event'])
+  onFocus(event: any): void {
+    this.spotifyService.getCurrentSong();
+  }
+
+  @HostListener('window:blur', ['$event'])
+  onBlur(event: any): void {
+    this.spotifyService.clearRefreshTimeout();
   }
 
   ngOnInit() {

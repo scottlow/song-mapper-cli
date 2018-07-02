@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, HostListener } from '@angular/core';
 import { SidebarService } from '../../services/sidebar.service';
 import { SpotifyService } from '../../services/spotify.service';
 import { AuthService } from '../../services/auth/auth.service';
@@ -33,6 +33,16 @@ export class MemoriesComponent implements OnInit, OnDestroy {
     private bottomSheet: MatBottomSheet,
     private messageService: MessageService
   ) { }
+
+  @HostListener('window:focus', ['$event'])
+  onFocus(event: any): void {
+    this.spotifyService.getCurrentSong();
+  }
+
+  @HostListener('window:blur', ['$event'])
+  onBlur(event: any): void {
+    this.spotifyService.clearRefreshTimeout();
+  }
 
   ngOnInit() {
     
