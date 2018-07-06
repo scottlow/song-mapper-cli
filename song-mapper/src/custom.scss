@@ -1,0 +1,11 @@
+@import '~@angular/material/theming';
+@include mat-core();
+
+$sm-app-primary: mat-palette($mat-red, 600);
+$sm-app-accent:  mat-palette($mat-amber);
+
+$sm-app-warn:    mat-palette($mat-grey);
+
+$sm-app-theme: mat-dark-theme($sm-app-primary, $sm-app-accent, $sm-app-warn);
+
+@include angular-material-theme($sm-app-theme);
